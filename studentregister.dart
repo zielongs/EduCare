@@ -16,13 +16,11 @@ class StudentRegisterScreen extends StatelessWidget {
           ),
         ),
         child: SingleChildScrollView(
-          // Supaya boleh scroll jika skrin kecil
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               children: [
                 const SizedBox(height: 50),
-                // Butang Back
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
@@ -44,7 +42,6 @@ class StudentRegisterScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
 
-                // Butang Google
                 Container(
                   width: double.infinity,
                   height: 55,
@@ -72,7 +69,6 @@ class StudentRegisterScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 20),
-                // Pembahagi "Or"
                 const Row(
                   children: [
                     Expanded(child: Divider(color: Colors.grey, thickness: 1)),
@@ -88,7 +84,6 @@ class StudentRegisterScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Form Input
                 _buildInputField("Email Address", "Enter your email address"),
                 const SizedBox(height: 15),
                 _buildInputField("Full Name", "Enter your full name"),
@@ -100,7 +95,7 @@ class StudentRegisterScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 30),
-                // Butang Register
+                // Register Button
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -142,7 +137,7 @@ class StudentRegisterScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                // Ikon Sosial
+                // Social Icon
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
