@@ -9,7 +9,6 @@ class TutorMenuScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
-          // Gradient mengikut gambar: Teal ke Biru Gelap
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -19,7 +18,6 @@ class TutorMenuScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 50),
-            // Header: Butang Back dan Tulisan MENU
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -43,12 +41,12 @@ class TutorMenuScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 48), // Untuk mengimbangi butang back
+                  const SizedBox(width: 48), 
                 ],
               ),
             ),
             const SizedBox(height: 30),
-            // Senarai Menu
+            // Menu List
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -70,12 +68,11 @@ class TutorMenuScreen extends StatelessWidget {
     );
   }
 
-  // Widget untuk butang menu yang berulang
   Widget _buildMenuButton(BuildContext context, String title) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: const Color(0xFFD1F2F9), // Biru sangat muda
+        color: const Color(0xFFD1F2F9),
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
@@ -99,7 +96,6 @@ class TutorMenuScreen extends StatelessWidget {
           color: Colors.black54,
         ),
         onTap: () {
-          // Tambah logik navigasi di sini
           if (title == "LOGOUT") {
             Navigator.pushReplacementNamed(context, '/');
           }
