@@ -18,7 +18,6 @@ class TutorLogin extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 50),
-            // Ikon Back
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Align(
@@ -29,13 +28,12 @@ class TutorLogin extends StatelessWidget {
                 ),
               ),
             ),
-            // Bahagian Logo
             const SizedBox(height: 20),
             const Icon(
               Icons.pets,
               size: 80,
               color: Color(0xFF1A237E),
-            ), // Logo kucing (placeholder)
+            ), 
             const Text(
               'EduCare',
               style: TextStyle(
@@ -45,7 +43,6 @@ class TutorLogin extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 40),
-            // Container Melengkung (Login Form)
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -75,7 +72,6 @@ class TutorLogin extends StatelessWidget {
                       _buildInputLabel("Password"),
                       _buildTextField("Create your password", isPassword: true),
                       const SizedBox(height: 30),
-                      // Butang Login
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
@@ -99,7 +95,6 @@ class TutorLogin extends StatelessWidget {
                         style: TextStyle(color: Colors.grey),
                       ),
                       const SizedBox(height: 30),
-                      // Ikon Media Sosial
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -123,7 +118,6 @@ class TutorLogin extends StatelessWidget {
     );
   }
 
-  // Widget bantuan untuk Label
   Widget _buildInputLabel(String text) {
     return Align(
       alignment: Alignment.centerLeft,
