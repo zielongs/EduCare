@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'tutorlogin.dart';
+import 'tutormenu.dart';
+import 'adminmenu.dart';
+import 'studentregister.dart';
 
 void main() {
   runApp(const EduCareApp());
@@ -11,13 +14,13 @@ class EduCareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EduCare App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      initialRoute: '/',
-
+      initialRoute: '/register',
       routes: {
-        '/': (context) => const TutorLogin(),
+        '/': (context) => const TutorLoginScreen(),
+        '/tutor_menu': (context) => const TutorMenuScreen(),
+        '/admin_menu': (context) => const AdminMenuScreen(),
+        '/register': (context) => const StudentRegisterScreen(),
       },
     );
   }
