@@ -9,7 +9,6 @@ class AdminMenuScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
-          // Gradient mengikut gambar: Turquoise ke Biru Gelap
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -49,7 +48,7 @@ class AdminMenuScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Senarai Menu Admin
+            // List of Admin Menu
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -71,7 +70,6 @@ class AdminMenuScreen extends StatelessWidget {
     );
   }
 
-  // Widget Custom untuk butang supaya kod lebih kemas
   Widget _menuItem(String title) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -96,7 +94,6 @@ class AdminMenuScreen extends StatelessWidget {
           color: Colors.black54,
         ),
         onTap: () {
-          // Tambah logik navigasi di sini nanti
         },
       ),
     );
