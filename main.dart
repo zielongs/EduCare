@@ -13,67 +13,65 @@ Main entry point for the Educare App.
 import 'package:flutter/material.dart';
 
 // Core Screens
-import 'package:tutor/screen_launcher.dart';
-import 'package:tutor/home_page.dart';
-import 'package:tutor/login_user_roles.dart';
+import 'screen_launcher.dart';
+import 'home_page.dart';
+import 'login_user_roles.dart';
 
 // Admin Screens
-import 'package:tutor/admin_login.dart';
-import 'package:tutor/admin_menu.dart';
-import 'package:tutor/admin_dashboard.dart';
-import 'package:tutor/admin_schedule_screen.dart';
-import 'package:tutor/admin_attendance_screen.dart';
+import 'admin_login.dart';
+import 'admin_menu.dart';
+import 'admin_dashboard.dart';
+import 'admin_schedule_screen.dart';
+import 'admin_attendance_screen.dart';
 
 // Tutor Screens
-import 'package:tutor/tutor_login.dart';
-import 'package:tutor/tutor_menu.dart';
-import 'package:tutor/tutor_profile.dart';
-import 'package:tutor/update_tutor_profile.dart';
-import 'package:tutor/tutor_availability_screen.dart';
+import 'tutor_login.dart';
+import 'tutor_menu.dart';
+import 'tutor_profile.dart';
+import 'update_tutor_profile.dart';
+import 'tutor_availability_screen.dart';
 
 // Student Screens
-import 'package:tutor/student_login.dart';
-import 'package:tutor/student_register.dart';
-import 'package:tutor/student_menu.dart';
-import 'package:tutor/student_dashboard.dart';
+import 'student_login.dart';
+import 'student_register.dart';
+import 'student_menu.dart';
+import 'student_dashboard.dart';
+import 'student_profile.dart';
+import 'update_student_profile.dart';
 
 // Data
-import 'package:tutor/data/mock_tutors.dart';
+import 'data/mock_tutors.dart';
 
-/// Entry point of the app
 void main() {
   runApp(const EduCareApp());
 }
 
-/// Root widget of the Educare App
 class EduCareApp extends StatelessWidget {
   const EduCareApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Hide debug banner
-      title: 'EduCare System', // App title
+      debugShowCheckedModeBanner: false,
+      title: 'EduCare System',
       theme: ThemeData(
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
 
-      // Initial screen - change this to your preferred starting screen
-      // Options: ScreenLauncher(), HomePage(), StudentDashboard(), etc.
+      // Change this if you want HomePage instead
       initialRoute: '/',
-      
-      // Named routes for navigation
+
       routes: {
         // Core Routes
-        '/': (context) => const ScreenLauncher(), // or HomePage()
+        '/': (context) => const ScreenLauncher(),
         '/home': (context) => const HomePage(),
         '/roles': (context) => const LoginUserRolesScreen(),
 
         // Admin Routes
         '/admin': (context) => const AdminLoginScreen(),
         '/admin_menu': (context) => const AdminMenuScreen(),
-        '/admin_dashboard': (context) => const AdminDashboard(),
+        '/admin_dashboard': (context) => const AdminDashboardScreen(),
         '/admin-schedule': (context) => const AdminScheduleScreen(),
         '/admin-attendance': (context) => const AdminAttendanceScreen(),
 
@@ -81,7 +79,8 @@ class EduCareApp extends StatelessWidget {
         '/tutor': (context) => const TutorLoginScreen(),
         '/tutor_menu': (context) => const TutorMenuScreen(),
         '/tutor_profile': (context) => const TutorProfileScreen(),
-        '/update_tutor_profile': (context) => const UpdateTutorProfileScreen(),
+        '/update_tutor_profile': (context) =>
+            const UpdateTutorProfileScreen(),
         '/tutor-availability': (context) =>
             TutorAvailabilityScreen(tutors: mockTutors),
 
@@ -89,7 +88,10 @@ class EduCareApp extends StatelessWidget {
         '/student': (context) => const StudentLoginScreen(),
         '/register': (context) => const StudentRegisterScreen(),
         '/student_menu': (context) => const StudentMenuScreen(),
-        '/student_dashboard': (context) => const StudentDashboard(),
+        '/student_dashboard': (context) => const StudentDashboardScreen(),
+        '/student_profile': (context) => const StudentProfileScreen(),
+        '/update_student_profile': (context) =>
+            const UpdateStudentProfileScreen(),
       },
     );
   }
