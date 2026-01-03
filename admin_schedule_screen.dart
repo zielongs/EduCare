@@ -1,17 +1,18 @@
 /*--------------------------------------------------
 Author      : Siti Norlie Yana
-Updated by  : 
-Tested by   : 
+Updated by  :
+Tested by   :
 Date        : 02 January 2026
-Description : 
-This screen allows the admin to view the tutor 
-schedule. Admin can select a date to see available 
-sessions, clear date filters, and see all scheduled 
+Description :
+This screen allows the admin to view the tutor
+schedule. Admin can select a date to see available
+sessions, clear date filters, and see all scheduled
 tutors and sessions for that day.
 --------------------------------------------------*/
 import 'package:flutter/material.dart';
-import 'package:tutor/data/mock_tutors.dart';
-import 'package:tutor/widgets/shared_bottom_nav.dart';
+import 'data/mock_tutors.dart';
+import 'widgets/shared_bottom_nav.dart';
+import 'admin_manage_schedule.dart';
 
 class AdminScheduleScreen extends StatefulWidget {
   const AdminScheduleScreen({super.key});
@@ -136,7 +137,6 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 
   // ================= HEADER =================
 
-  /// Top app bar with back button and title
   Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -162,7 +162,6 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 
   // ================= DATE HEADER =================
 
-  /// Shows selected date with day, month, weekday and action buttons
   Widget _buildDateHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -220,7 +219,6 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 
   // ================= SCHEDULE LIST =================
 
-  /// Build list of tutors who have sessions on selected date
   Widget _buildScheduleList() {
     final tutors = mockTutors.where((tutor) {
       return tutor.availability.any((slot) {
@@ -260,14 +258,20 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 
   // ================= MODIFY BUTTON =================
 
-  /// Button at bottom to modify a session (action not implemented yet)
   Widget _buildModifyButton() {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: SizedBox(
         width: double.infinity,
         child: OutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const AdminManageScheduleScreen(),
+              ),
+            );
+          },
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.white,
             side: const BorderSide(color: Colors.white),
@@ -284,7 +288,6 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 
 // ================= COMPONENTS =================
 
-/// Card to display a single session
 class SessionCard extends StatelessWidget {
   final String subject;
   final String time;
@@ -321,7 +324,6 @@ class SessionCard extends StatelessWidget {
   }
 }
 
-/// Tile for a tutor with all sessions of the selected date
 class TutorScheduleTile extends StatelessWidget {
   final String tutorName;
   final List<Map<String, dynamic>> sessions;
@@ -370,7 +372,11 @@ class TutorScheduleTile extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: sessions.map((slot) {
-                return SessionCard(slot["subject"], slot["time"], slot["mode"]);
+                return SessionCard(
+                  slot["subject"],
+                  slot["time"],
+                  slot["mode"],
+                );
               }).toList(),
             ),
           ),
