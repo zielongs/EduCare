@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Alyssa Annabelle binti James Pekan
-Updated by  : 
-Tested by   :
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 03 January 2026
 Description : 
 This screen is the home page of the EduCare app. 
@@ -175,3 +175,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
