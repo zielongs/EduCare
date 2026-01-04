@@ -20,6 +20,7 @@ import 'login_user_roles.dart';
 import 'admin_login.dart';
 import 'admin_menu.dart';
 import 'admin_home_screen.dart'; // NEW: replaces individual admin screens
+import 'admin_notifications.dart';
 
 // Tutor Screens
 import 'tutor_login.dart';
@@ -27,6 +28,11 @@ import 'tutor_menu.dart';
 import 'tutor_profile.dart';
 import 'update_tutor_profile.dart';
 import 'admin_tutor_availability_screen.dart';
+import 'tutor_dashboard.dart';
+import 'tutor_view_schedule.dart';
+import 'tutor_manage_availability.dart';
+import 'tutor_notifications.dart';
+import 'tutor_replacement_class.dart';
 
 // Student Screens
 import 'student_login.dart';
@@ -35,6 +41,7 @@ import 'student_menu.dart';
 import 'student_dashboard.dart';
 import 'student_profile.dart';
 import 'update_student_profile.dart';
+import 'student_notifications.dart';
 
 // Data
 import 'data/mock_tutors.dart';
@@ -66,6 +73,9 @@ class EduCareApp extends StatelessWidget {
         '/admin_menu': (context) => const AdminMenuScreen(),
         '/admin_home': (context) =>
             const AdminHomeScreen(), // NEW unified admin screen
+        '/admin-notifications': (context) => const AdminNotifications(),
+
+
         // Tutor Routes
         '/tutor': (context) => const TutorLoginScreen(),
         '/tutor_menu': (context) => const TutorMenuScreen(),
@@ -73,6 +83,11 @@ class EduCareApp extends StatelessWidget {
         '/update_tutor_profile': (context) => const UpdateTutorProfileScreen(),
         '/tutor_availability_screen': (context) =>
             TutorAvailabilityScreen(tutors: mockTutors),
+        '/tutor-dashboard': (context) => const TutorDashboard(),
+        '/view-schedule': (context) => const TutorViewSchedule(),
+        '/tutor-availability': (context) => const TutorManageAvailability(),
+        '/tutor-notifications': (context) => const TutorNotifications(),
+        '/tutor-replacement': (context) => const TutorReplacementClass(),
 
         // Student Routes
         '/student': (context) => const StudentLoginScreen(),
@@ -82,9 +97,8 @@ class EduCareApp extends StatelessWidget {
         '/student_profile': (context) => const StudentProfileScreen(),
         '/update_student_profile': (context) =>
             const UpdateStudentProfileScreen(),
+        '/student-notifications': (context) => const StudentNotifications(),
       },
     );
   }
 }
-
-
