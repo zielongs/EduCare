@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Nur 'Aainaa Hamraa binti Hamka
-Updated by  : 
-Tested by   : 
+Updated by  : Amir Lukman
+Tested by   : Amir Lukman
 Date        : 2 January 2026
 Description : 
 Student Notifications Screen for the EduCare App.
@@ -20,7 +20,7 @@ class StudentNotifications extends StatefulWidget {
 }
 
 class _StudentNotificationsState extends State<StudentNotifications> {
-  final int _currentIndex = 2; 
+  final int _currentIndex = 2; // Notifications Tab Index
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +45,7 @@ class _StudentNotificationsState extends State<StudentNotifications> {
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
                       onPressed: () {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/student_dashboard',
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                     const SizedBox(width: 10),
@@ -69,7 +66,7 @@ class _StudentNotificationsState extends State<StudentNotifications> {
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.25),
+                    color: Colors.white.withValues(alpha: 0.25),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: ListView(
@@ -142,15 +139,17 @@ class _StudentNotificationsState extends State<StudentNotifications> {
 
           switch (index) {
             case 0:
-              Navigator.pushReplacementNamed(context, '/student_dashboard');
+              Navigator.pushNamed(context, '/student_dashboard');
               break;
             case 1:
-              Navigator.pushReplacementNamed(context, '/student_attendance');
+              Navigator.pushNamed(context, '/student_attendance');
               break;
             case 2:
-              return; 
+              // Already on Notifications
+              break;
             case 3:
-              Navigator.pushReplacementNamed(context, '/student_profile');
+              // UPDATED: Correct route name from main.dart
+              Navigator.pushNamed(context, '/profile');
               break;
           }
         },
@@ -160,7 +159,7 @@ class _StudentNotificationsState extends State<StudentNotifications> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle_outline),
+            icon: Icon(Icons.calendar_today_rounded), // Changed to match others
             label: 'Attendance',
           ),
           BottomNavigationBarItem(
@@ -187,7 +186,7 @@ class _StudentNotificationsState extends State<StudentNotifications> {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: Colors.white.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(15),
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
       ),
@@ -220,5 +219,4 @@ class _StudentNotificationsState extends State<StudentNotifications> {
     );
   }
 }
-
 
