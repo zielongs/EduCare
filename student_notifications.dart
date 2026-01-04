@@ -47,7 +47,7 @@ class _StudentNotificationsState extends State<StudentNotifications> {
                       onPressed: () {
                         Navigator.pushReplacementNamed(
                           context,
-                          '/student-dashboard',
+                          '/student_dashboard',
                         );
                       },
                     ),
@@ -142,15 +142,15 @@ class _StudentNotificationsState extends State<StudentNotifications> {
 
           switch (index) {
             case 0:
-              Navigator.pushReplacementNamed(context, '/student-dashboard');
+              Navigator.pushReplacementNamed(context, '/student_dashboard');
               break;
             case 1:
-              Navigator.pushReplacementNamed(context, '/student-attendance');
+              Navigator.pushReplacementNamed(context, '/student_attendance');
               break;
             case 2:
               return; 
             case 3:
-              Navigator.pushReplacementNamed(context, '/student-profile');
+              Navigator.pushReplacementNamed(context, '/student_profile');
               break;
           }
         },
@@ -220,4 +220,5 @@ class _StudentNotificationsState extends State<StudentNotifications> {
     );
   }
 }
+
 
