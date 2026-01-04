@@ -69,15 +69,14 @@ class EduCareApp extends StatelessWidget {
         '/roles': (context) => const LoginUserRolesScreen(),
 
         // Admin Routes
-        '/admin': (context) => const AdminLoginScreen(),
+        '/admin_login': (context) => const AdminLoginScreen(),
         '/admin_menu': (context) => const AdminMenuScreen(),
         '/admin_home': (context) =>
             const AdminHomeScreen(), // NEW unified admin screen
         '/admin-notifications': (context) => const AdminNotifications(),
 
-
         // Tutor Routes
-        '/tutor': (context) => const TutorLoginScreen(),
+        '/tutor_login': (context) => const TutorLoginScreen(),
         '/tutor_menu': (context) => const TutorMenuScreen(),
         '/tutor_profile': (context) => const TutorProfileScreen(),
         '/update_tutor_profile': (context) => const UpdateTutorProfileScreen(),
@@ -90,8 +89,8 @@ class EduCareApp extends StatelessWidget {
         '/tutor-replacement': (context) => const TutorReplacementClass(),
 
         // Student Routes
-        '/student': (context) => const StudentLoginScreen(),
-        '/register': (context) => const StudentRegisterScreen(),
+        '/student_login': (context) => const StudentLoginScreen(),
+        '/student_register': (context) => const StudentRegisterScreen(),
         '/student_menu': (context) => const StudentMenuScreen(),
         '/student_dashboard': (context) => const StudentDashboardScreen(),
         '/student_profile': (context) => const StudentProfileScreen(),
