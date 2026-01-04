@@ -165,7 +165,7 @@ class _TutorNotificationsState extends State<TutorNotifications> {
               return;
             case 3:
               Navigator.pushReplacementNamed(
-                  context, '/tutor-profile');
+                  context, '/tutor_profile');
               break;
           }
         },
@@ -240,4 +240,5 @@ class _TutorNotificationsState extends State<TutorNotifications> {
     );
   }
 }
+
 
