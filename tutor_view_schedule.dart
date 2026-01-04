@@ -222,7 +222,7 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
               Navigator.pushReplacementNamed(context, '/tutor-notifications');
               break;
             case 3:
-              Navigator.pushReplacementNamed(context, '/tutor-profile');
+              Navigator.pushReplacementNamed(context, '/tutor_profile');
               break;
           }
         },
@@ -368,4 +368,5 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
     );
   }
 }
+
 
