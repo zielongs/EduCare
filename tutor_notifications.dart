@@ -143,7 +143,7 @@ class _TutorNotificationsState extends State<TutorNotifications> {
         ),
       ),
 
-      /* ---------------- BOTTOM NAV ---------------- */
+      /* ---------------- BOTTOM NAVIGATION ---------------- */
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
@@ -240,3 +240,4 @@ class _TutorNotificationsState extends State<TutorNotifications> {
     );
   }
 }
+
