@@ -1,3 +1,15 @@
+/*--------------------------------------------------
+Author      : Amir Lukman Bin Rozalan
+Updated by  : Amir Rozalan
+Tested by   : 
+Date        : 03 January 2026
+Description : 
+Student Attendance Screen.
+- Allows students to mark their attendance for a class.
+- Displays recent attendance activity.
+- Navigation to Attendance Overview.
+--------------------------------------------------*/
+
 import 'package:flutter/material.dart';
 
 class StudentAttendanceScreen extends StatefulWidget {
@@ -18,9 +30,9 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     } else if (index == 1) {
       // Already on Attendance, do nothing
     } else if (index == 2) {
-      Navigator.pushNamed(context, '/student-notification');
+      Navigator.pushNamed(context, '/notification');
     } else if (index == 3) {
-      Navigator.pushNamed(context, '/student_profile');
+      Navigator.pushNamed(context, '/profile');
     }
   }
 
@@ -300,4 +312,3 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     );
   }
 }
-
