@@ -98,7 +98,7 @@ class StudentMenuScreen extends StatelessWidget {
           switch (title) {
             case "PROFILE":
               // Updated to match standard route
-              Navigator.pushNamed(context, '/profile'); 
+              Navigator.pushNamed(context, '/studet_profile'); 
               break;
             case "DASHBOARD":
               Navigator.pushNamed(context, '/student_dashboard');
@@ -115,7 +115,7 @@ class StudentMenuScreen extends StatelessWidget {
               break;
             case "NOTIFICATIONS":
               // Updated to match standard route
-              Navigator.pushNamed(context, '/notification'); 
+              Navigator.pushNamed(context, '/student-notification'); 
               break;
             case "LOGOUT":
               // Clears navigation history and returns to Home Page
@@ -127,3 +127,4 @@ class StudentMenuScreen extends StatelessWidget {
     );
   }
 }
+
