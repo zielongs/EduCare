@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : [Your Name/Team Name]
-Date        : [Current Date]
+Updated by  : 
+Date        : 28 December 2026
 Description : 
 Student Menu Screen for the EduCare App.
 - Updated navigation routes to match final project structure.
@@ -98,7 +98,7 @@ class StudentMenuScreen extends StatelessWidget {
           switch (title) {
             case "PROFILE":
               // Updated to match standard route
-              Navigator.pushNamed(context, '/studet_profile'); 
+              Navigator.pushNamed(context, '/student_profile');
               break;
             case "DASHBOARD":
               Navigator.pushNamed(context, '/student_dashboard');
@@ -107,15 +107,14 @@ class StudentMenuScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/student_schedule');
               break;
             case "MANAGE ATTENDANCE":
-              // CRITICAL FIX: Links to Attendance Screen (not Overview)
-              Navigator.pushNamed(context, '/student_attendance'); 
+              Navigator.pushNamed(context, '/student_attendance');
               break;
             case "REPLACEMENT REQUEST":
               Navigator.pushNamed(context, '/student_replacement');
               break;
             case "NOTIFICATIONS":
               // Updated to match standard route
-              Navigator.pushNamed(context, '/student-notification'); 
+              Navigator.pushNamed(context, '/student-notifications');
               break;
             case "LOGOUT":
               // Clears navigation history and returns to Home Page
@@ -127,4 +126,3 @@ class StudentMenuScreen extends StatelessWidget {
     );
   }
 }
-
