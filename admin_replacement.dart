@@ -1,3 +1,15 @@
+/*--------------------------------------------------
+Author      : Amir Lukman Bin Rozalan
+Updated by  : Amir Lukman
+Tested by   : 
+Date        : 04 January 2026
+Description : 
+Admin Replacement Management Screen.
+- Lists pending replacement requests from students.
+- Allows the admin to Approve or Reject requests.
+- Shows history of past requests.
+--------------------------------------------------*/
+
 import 'package:flutter/material.dart';
 
 class AdminReplacementScreen extends StatefulWidget {
