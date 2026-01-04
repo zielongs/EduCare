@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
-Tested by   : 
+Updated by  : Siti Norlie Yana
+Tested by   : Siti Norlie Yana
 Date        : 28 December 2025
 Description : 
 Admin Dashboard Screen for the EduCare App.
@@ -12,10 +12,6 @@ Admin Dashboard Screen for the EduCare App.
 --------------------------------------------------*/
 
 import 'package:flutter/material.dart';
-// Import your screens here
-// import 'admin_schedule_screen.dart';
-// import 'admin_attendance_screen.dart';
-// import 'tutor_availability_screen.dart';
 
 class AdminDashboardScreen extends StatelessWidget {
   const AdminDashboardScreen({super.key});
@@ -25,55 +21,6 @@ class AdminDashboardScreen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      /* ---------------- Bottom Navigation Bar ---------------- */
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 0, // Home page
-        selectedItemColor: const Color(0xFF3F51B5),
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          // Navigation Logic (commented for now)
-          if (index == 1) {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const AdminScheduleScreen(),
-            //   ),
-            // );
-          } else if (index == 2) {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const AdminAttendanceScreen(),
-            //   ),
-            // );
-          } else if (index == 3) {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const TutorAvailabilityScreen(),
-            //   ),
-            // );
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Schedule',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle_outline),
-            label: 'Attendance',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Tutors',
-          ),
-        ],
-      ),
-
-      /* ---------------- Main Body ---------------- */
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -129,7 +76,7 @@ class AdminDashboardScreen extends StatelessWidget {
     );
   }
 
-  /* ---------------- Header Section ---------------- */
+  // ---------------- HEADER ----------------
   Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -142,10 +89,13 @@ class AdminDashboardScreen extends StatelessWidget {
             child: Icon(Icons.grid_view_rounded, color: Colors.white, size: 20),
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/admin_menu'),
+            onTap: () {
+              // Navigate to menu screen
+              Navigator.pushNamed(context, '/admin_menu');
+            },
             child: CircleAvatar(
               radius: 18,
-              backgroundColor: Colors.white.withOpacity(0.4),
+              backgroundColor: Colors.white.withValues(alpha: 0.4),
               child: const Icon(
                 Icons.person_outline,
                 color: Colors.white,
@@ -158,7 +108,7 @@ class AdminDashboardScreen extends StatelessWidget {
     );
   }
 
-  /* ---------------- Urgent Action Cards ---------------- */
+  // ---------------- URGENT ACTION CARDS ----------------
   Widget _buildActionCards(double screenWidth) {
     return SizedBox(
       height: 145,
@@ -236,7 +186,7 @@ class AdminDashboardScreen extends StatelessWidget {
     );
   }
 
-  /* ---------------- Schedule List ---------------- */
+  // ---------------- SCHEDULE LIST ----------------
   Widget _buildScheduleList() {
     return Container(
       decoration: const BoxDecoration(
