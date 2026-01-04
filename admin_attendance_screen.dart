@@ -3,412 +3,390 @@ Author      : Siti Norlie Yana
 Updated by  : Noraziela Binti Jepsin
 Tested by   : Noraziela Binti Jepsin
 Date        : 02 January 2026
-Description :
-This screen allows the admin to view the tutor
-schedule. Admin can select a date to see available
-sessions, clear date filters, and see all scheduled
-tutors and sessions for that day.
+Description : 
+This screen is used by admin to view student
+attendance by date. Admin can filter attendance
+(All, Present, Absent) and generate a PDF report
+for printing or downloading.
 --------------------------------------------------*/
-import 'package:flutter/material.dart';
-import 'data/mock_tutors.dart';
-import 'admin_manage_schedule.dart';
 
-class AdminScheduleScreen extends StatefulWidget {
+import 'package:flutter/foundation.dart'; // Used to check if app runs on Web
+import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart'; // PDF page format
+import 'package:pdf/widgets.dart' as pw; // PDF widgets
+import 'package:printing/printing.dart'; // Print and download PDF
+
+import 'models/attendance.dart';
+import 'data/mock_attendance.dart';
+
+class AdminAttendanceScreen extends StatefulWidget {
   final VoidCallback? onBackToDashboard; // Callback for back button
-  const AdminScheduleScreen({super.key, this.onBackToDashboard});
+
+  const AdminAttendanceScreen({super.key, this.onBackToDashboard});
 
   @override
-  State<AdminScheduleScreen> createState() => _AdminScheduleScreenState();
+  State<AdminAttendanceScreen> createState() => _AdminAttendanceScreenState();
 }
 
-class _AdminScheduleScreenState extends State<AdminScheduleScreen>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
+  // Store selected date
   late DateTime selectedDate;
+  // Store attendance records
+  late List<Attendance> attendanceList;
 
-  // ================= INIT =================
   @override
   void initState() {
     super.initState();
 
-    // Auto-pick first available session date from mock data
-    for (final tutor in mockTutors) {
-      if (tutor.availability.isNotEmpty) {
-        selectedDate = tutor.availability.first["date"] as DateTime;
-        return;
+    // Load mock attendance data
+    attendanceList = mockAttendanceList;
+    // Normalize selected date
+    selectedDate = normalize(DateTime.now());
+
+    // Debug: Print mock data info
+    debugPrint("=== Mock Data Info ===");
+    debugPrint("Total attendance records: ${attendanceList.length}");
+    if (attendanceList.isNotEmpty) {
+      for (
+        var i = 0;
+        i < (attendanceList.length > 5 ? 5 : attendanceList.length);
+        i++
+      ) {
+        debugPrint(
+          "  - ${attendanceList[i].studentName}: ${attendanceList[i].date}",
+        );
       }
     }
-    // Fallback to current date if no availability
-    selectedDate = DateTime.now();
+    debugPrint("Today's date: $selectedDate");
+    debugPrint("===================");
   }
 
-  // ================= HELPERS =================
+  // Normalize date to ignore time
+  DateTime normalize(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
 
-  /// Check if two dates are the same (ignore time)
-  bool isSameDate(DateTime a, DateTime b) =>
-      a.year == b.year && a.month == b.month && a.day == b.day;
-
-  /// Convert month number to month name
-  String _monthName(int month) {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    return months[month - 1];
-  }
-
-  /// Convert weekday number to short weekday name
-  String _weekdayName(int day) {
-    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    return days[day - 1];
-  }
-
-  // ================= DATE PICKER =================
-  /// Show date picker to select date
-  Future<void> _pickDate() async {
+  /// Open date picker to choose attendance date
+  Future<void> pickDate() async {
     final picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2024),
-      lastDate: DateTime(2026),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2030),
     );
-    if (picked != null) {
-      setState(
-        () => selectedDate = DateTime(picked.year, picked.month, picked.day),
-      );
-    }
+    // Update selected date if user picks one
+    if (picked != null) setState(() => selectedDate = normalize(picked));
   }
 
-  /// Reset selected date to first available session
-  void _clearDateFilter() {
-    for (final tutor in mockTutors) {
-      if (tutor.availability.isNotEmpty) {
-        setState(
-          () => selectedDate = tutor.availability.first["date"] as DateTime,
-        );
+  /// Check if two dates are the same day
+  bool isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
+  /// Filtered attendance list based on tab index
+  List<Attendance> filteredAttendance(int tabIndex) {
+    final list = attendanceList.where((a) {
+      if (!isSameDay(a.date, selectedDate)) return false;
+      if (tabIndex == 1) return a.status == AttendanceStatus.present;
+      if (tabIndex == 2) return a.status == AttendanceStatus.absent;
+      return true;
+    }).toList();
+
+    // Sort students by name
+    list.sort((a, b) => a.studentName.compareTo(b.studentName));
+    return list;
+  }
+
+  /// Print or download PDF with better error handling
+  Future<void> printAttendancePdf(int tabIndex) async {
+    try {
+      debugPrint("=== Print PDF Started ===");
+      debugPrint("Tab Index: $tabIndex");
+      debugPrint("Selected Date: $selectedDate");
+
+      final list = filteredAttendance(tabIndex);
+      debugPrint("Filtered attendance count: ${list.length}");
+
+      // Show message if no data
+      if (list.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "No attendance data for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+              ),
+              backgroundColor: Colors.orange,
+            ),
+          );
+        }
         return;
       }
-    }
-    setState(() => selectedDate = DateTime.now());
-  }
 
-  List tutorsForSelectedDate() {
-    return mockTutors.where((tutor) {
-      return tutor.availability.any((slot) {
-        final d = slot["date"] as DateTime;
-        return isSameDate(d, selectedDate);
-      });
-    }).toList();
-  }
+      // Create PDF document
+      final pdf = pw.Document();
 
-  // ================= BUILD =================
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    final tutors = tutorsForSelectedDate();
-
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF6FE3E1), Color(0xFF2B3FAE)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 16),
-              _buildDateHeader(),
-              const SizedBox(height: 16),
-              Expanded(
-                child: tutors.isEmpty
-                    ? const Center(
-                        child: Text(
-                          "No schedules for this date",
-                          style: TextStyle(color: Colors.white),
-                        ),
+      // Add PDF page
+      pdf.addPage(
+        pw.Page(
+          pageFormat: PdfPageFormat.a4,
+          build: (context) {
+            return pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text(
+                  "Student Attendance Report",
+                  style: pw.TextStyle(
+                    fontSize: 22,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+                pw.SizedBox(height: 8),
+                pw.Text(
+                  "Date: ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                ),
+                pw.Text("Total Records: ${list.length}"),
+                pw.SizedBox(height: 16),
+                pw.TableHelper.fromTextArray(
+                  headers: const ["Student", "Check In", "Check Out", "Status"],
+                  data: list
+                      .map(
+                        (a) => [
+                          a.studentName,
+                          a.checkIn ?? "-",
+                          a.checkOut ?? "-",
+                          a.status.name.toUpperCase(),
+                        ],
                       )
-                    : ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: tutors.length,
-                        itemBuilder: (context, index) {
-                          final tutor = tutors[index];
-                          final sessionsToday = tutor.availability
-                              .where(
-                                (slot) =>
-                                    isSameDate(slot["date"], selectedDate),
-                              )
-                              .toList();
-
-                          return TutorScheduleTile(
-                            tutorName: tutor.name,
-                            subjects: tutor.subjects,
-                            sessions: sessionsToday,
-                          );
-                        },
-                      ),
-              ),
-              _buildModifyButton(),
-            ],
-          ),
+                      .toList(),
+                  headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  headerDecoration: const pw.BoxDecoration(
+                    color: PdfColors.grey300,
+                  ),
+                  cellAlignment: pw.Alignment.centerLeft,
+                  cellHeight: 30,
+                ),
+              ],
+            );
+          },
         ),
-      ),
+      );
+
+      // Web: download PDF
+      final bytes = await pdf.save();
+      debugPrint("PDF generated: ${bytes.length} bytes");
+
+      // Download PDF on Web
+      if (kIsWeb) {
+        debugPrint("Web detected → sharePdf");
+        await Printing.sharePdf(
+          bytes: bytes,
+          filename:
+              'attendance_${selectedDate.day}_${selectedDate.month}_${selectedDate.year}.pdf',
+        );
+
+        // Success feedback for Web
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("PDF downloaded successfully"),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      } else {
+        debugPrint("Non-web → layoutPdf");
+        // Print dialog on Mobile/Desktop
+        await Printing.layoutPdf(
+          onLayout: (_) async => bytes,
+          name: 'Attendance Report',
+        );
+
+        // Feedback for Mobile/Desktop
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Print dialog opened"),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+
+      debugPrint("=== Print PDF Completed ===");
+    } catch (e, stack) {
+      debugPrint("PDF ERROR: $e");
+      debugPrint("$stack");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: $e"), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
+
+  /// Build attendance list cards
+  Widget buildAttendanceList(List<Attendance> list) {
+    if (list.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.event_busy, size: 64, color: Colors.white70),
+            const SizedBox(height: 16),
+            Text(
+              "No attendance records for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+              style: const TextStyle(color: Colors.white70),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: list.length,
+      itemBuilder: (_, index) {
+        final a = list[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: a.status == AttendanceStatus.present
+                  ? Colors.green[200]
+                  : Colors.red[200],
+              child: Text(
+                a.studentName[0],
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            title: Text(a.studentName),
+            subtitle: Text(
+              "In: ${a.checkIn ?? '-'} | Out: ${a.checkOut ?? '-'}",
+            ),
+            trailing: Text(
+              a.status.name.toUpperCase(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: a.status == AttendanceStatus.present
+                    ? Colors.green
+                    : Colors.red,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
-  // ================= HEADER =================
-
-  /// Top app bar with back button and title
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          IconButton(
+  /// Main UI build method
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      initialIndex: 0,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
             icon: const Icon(
               Icons.arrow_circle_left_outlined,
               size: 40,
               color: Color.fromARGB(255, 0, 0, 0),
             ),
-            onPressed: widget.onBackToDashboard, //call the callback
+            onPressed: widget.onBackToDashboard,
           ),
-          const SizedBox(width: 8),
-          const Expanded(
-            child: Center(
-              child: Text(
-                "ADMIN SCHEDULE",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 48), // to balance IconButton space
-        ],
-      ),
-    );
-  }
-
-  // ================= DATE HEADER =================
-
-  /// Shows selected date with day, month, weekday and action buttons
-  Widget _buildDateHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
-        children: [
-          Expanded(
-            child: InkWell(
-              onTap: _pickDate,
-              child: Row(
-                children: [
-                  Text(
-                    selectedDate.day.toString(),
-                    style: const TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 17, 27, 104),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _monthName(selectedDate.month),
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text(
-                        _weekdayName(selectedDate.weekday),
-                        style: const TextStyle(
-                          color: Color.fromARGB(179, 46, 43, 43),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.clear,
-              color: Color.fromARGB(255, 137, 0, 0),
-            ),
-            onPressed: _clearDateFilter,
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.calendar_today,
+          title: const Text(
+            "STUDENT ATTENDANCE",
+            style: TextStyle(
               color: Color.fromARGB(255, 0, 0, 0),
-            ),
-            onPressed: _pickDate,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ================= MODIFY BUTTON =================
-
-  /// Button at bottom to modify a session
-  Widget _buildModifyButton() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: SizedBox(
-        width: double.infinity,
-        child: OutlinedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const AdminManageScheduleScreen(),
-              ),
-            );
-          },
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.white,
-            side: const BorderSide(color: Colors.white),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+              fontWeight: FontWeight.bold,
             ),
           ),
-          child: const Text("Modify Session"),
-        ),
-      ),
-    );
-  }
-}
-
-// ================= COMPONENTS =================
-/// Card to display a single session
-class SessionCard extends StatelessWidget {
-  final String subject;
-  final String time;
-  final String mode;
-
-  const SessionCard(this.subject, this.time, this.mode, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 180,
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: const Color(0xFF00C6B8),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              subject,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+          centerTitle: true,
+          actions: [
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.print,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  tooltip: "Print / Download PDF",
+                  onPressed: () {
+                    final controller = DefaultTabController.of(context);
+                    final tabIndex = controller.index;
+                    // Simple print to verify button works
+                    debugPrint("PRINT ICON PRESSED | Tab: $tabIndex");
+                    printAttendancePdf(tabIndex);
+                  },
+                );
+              },
             ),
-            const SizedBox(height: 4),
-            Text(time, style: const TextStyle(fontSize: 12)),
-            Text(mode, style: const TextStyle(fontSize: 11)),
           ],
+
+          bottom: const TabBar(
+            labelColor: Color.fromARGB(255, 0, 0, 0),
+            unselectedLabelColor: Color.fromARGB(179, 88, 85, 85),
+            indicatorColor: Color.fromARGB(255, 35, 155, 16),
+            tabs: [
+              Tab(text: "All"),
+              Tab(text: "Present"),
+              Tab(text: "Absent"),
+            ],
+          ),
         ),
-      ),
-    );
-  }
-}
 
-/// Tile for a tutor with all sessions of the selected date
-class TutorScheduleTile extends StatelessWidget {
-  final String tutorName;
-  final List<Map<String, dynamic>> sessions;
-  final List<String> subjects;
-
-  const TutorScheduleTile({
-    super.key,
-    required this.tutorName,
-    required this.sessions,
-    required this.subjects,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 173, 238, 251)
-          ..withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 90,
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF6FE3E1), Color(0xFF2B3FAE)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: SafeArea(
             child: Column(
               children: [
-                const CircleAvatar(
-                  radius: 22,
-                  backgroundColor: Color.fromARGB(255, 164, 241, 156),
-                  child: Icon(
-                    Icons.person,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.edit_calendar,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      onPressed: pickDate,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  tutorName,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    fontSize: 12,
+                const SizedBox(height: 12),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      buildAttendanceList(filteredAttendance(0)),
+                      buildAttendanceList(filteredAttendance(1)),
+                      buildAttendanceList(filteredAttendance(2)),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: sessions
-                  .map(
-                    (slot) => SessionCard(
-                      slot["subject"],
-                      slot["time"],
-                      slot["mode"],
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
+
+
