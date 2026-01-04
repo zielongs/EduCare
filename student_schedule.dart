@@ -97,9 +97,44 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
     ],
   };
 
+  void _onBottomNavTapped(int index) {
+    if (index == 0) {
+       Navigator.pushNamed(context, '/student_dashboard');
+    } else if (index == 1) {
+       Navigator.pushNamed(context, '/student_attendance');
+    } else if (index == 2) {
+       Navigator.pushNamed(context, '/notification');
+    } else if (index == 3) {
+       Navigator.pushNamed(context, '/profile');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color(0xFF3F51B5),
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        currentIndex: 0,
+        onTap: _onBottomNavTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_rounded),
+            label: 'Attendance',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            label: 'Notification',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -206,8 +241,7 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         itemCount: _scheduleData[_selectedDateIndex]!.length,
                         itemBuilder: (context, index) {
-                          final data =
-                              _scheduleData[_selectedDateIndex]![index];
+                          final data = _scheduleData[_selectedDateIndex]![index];
                           return _buildTimelineItem(
                             data['timeStart']!,
                             data['timeEnd']!,
