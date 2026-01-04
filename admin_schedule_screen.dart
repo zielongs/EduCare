@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Siti Norlie Yana
-Updated by  :
-Tested by   :
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 02 January 2026
 Description :
 This screen allows the admin to view the tutor
@@ -11,17 +11,21 @@ tutors and sessions for that day.
 --------------------------------------------------*/
 import 'package:flutter/material.dart';
 import 'data/mock_tutors.dart';
-import 'widgets/shared_bottom_nav.dart';
 import 'admin_manage_schedule.dart';
 
 class AdminScheduleScreen extends StatefulWidget {
-  const AdminScheduleScreen({super.key});
+  final VoidCallback? onBackToDashboard; // Callback for back button
+  const AdminScheduleScreen({super.key, this.onBackToDashboard});
 
   @override
   State<AdminScheduleScreen> createState() => _AdminScheduleScreenState();
 }
 
-class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
+class _AdminScheduleScreenState extends State<AdminScheduleScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   late DateTime selectedDate;
 
   // ================= INIT =================
@@ -36,7 +40,6 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
         return;
       }
     }
-
     // Fallback to current date if no availability
     selectedDate = DateTime.now();
   }
@@ -44,9 +47,8 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
   // ================= HELPERS =================
 
   /// Check if two dates are the same (ignore time)
-  bool isSameDate(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
-  }
+  bool isSameDate(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
 
   /// Convert month number to month name
   String _monthName(int month) {
@@ -74,7 +76,6 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
   }
 
   // ================= DATE PICKER =================
-
   /// Show date picker to select date
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -83,33 +84,43 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
       firstDate: DateTime(2024),
       lastDate: DateTime(2026),
     );
-
     if (picked != null) {
-      setState(() {
-        selectedDate = DateTime(picked.year, picked.month, picked.day);
-      });
+      setState(
+        () => selectedDate = DateTime(picked.year, picked.month, picked.day),
+      );
     }
   }
 
   /// Reset selected date to first available session
   void _clearDateFilter() {
-    setState(() {
-      for (final tutor in mockTutors) {
-        if (tutor.availability.isNotEmpty) {
-          selectedDate = tutor.availability.first["date"] as DateTime;
-          return;
-        }
+    for (final tutor in mockTutors) {
+      if (tutor.availability.isNotEmpty) {
+        setState(
+          () => selectedDate = tutor.availability.first["date"] as DateTime,
+        );
+        return;
       }
-      selectedDate = DateTime.now();
-    });
+    }
+    setState(() => selectedDate = DateTime.now());
+  }
+
+  List tutorsForSelectedDate() {
+    return mockTutors.where((tutor) {
+      return tutor.availability.any((slot) {
+        final d = slot["date"] as DateTime;
+        return isSameDate(d, selectedDate);
+      });
+    }).toList();
   }
 
   // ================= BUILD =================
-
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final tutors = tutorsForSelectedDate();
+
     return Scaffold(
-      bottomNavigationBar: buildSharedBottomNav(context, 1),
+      backgroundColor: Colors.transparent,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -122,11 +133,38 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(context),
+              _buildHeader(),
               const SizedBox(height: 16),
               _buildDateHeader(),
               const SizedBox(height: 16),
-              Expanded(child: _buildScheduleList()),
+              Expanded(
+                child: tutors.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "No schedules for this date",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: tutors.length,
+                        itemBuilder: (context, index) {
+                          final tutor = tutors[index];
+                          final sessionsToday = tutor.availability
+                              .where(
+                                (slot) =>
+                                    isSameDate(slot["date"], selectedDate),
+                              )
+                              .toList();
+
+                          return TutorScheduleTile(
+                            tutorName: tutor.name,
+                            subjects: tutor.subjects,
+                            sessions: sessionsToday,
+                          );
+                        },
+                      ),
+              ),
               _buildModifyButton(),
             ],
           ),
@@ -137,24 +175,34 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 
   // ================= HEADER =================
 
-  Widget _buildHeader(BuildContext context) {
+  /// Top app bar with back button and title
+  Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
           IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_circle_left_outlined,
+              size: 40,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
+            onPressed: widget.onBackToDashboard, //call the callback
           ),
+          const SizedBox(width: 8),
           const Expanded(
             child: Center(
               child: Text(
                 "ADMIN SCHEDULE",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 48),
+          const SizedBox(width: 48), // to balance IconButton space
         ],
       ),
     );
@@ -162,6 +210,7 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 
   // ================= DATE HEADER =================
 
+  /// Shows selected date with day, month, weekday and action buttons
   Widget _buildDateHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -177,7 +226,7 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
                     style: const TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 17, 27, 104),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -187,14 +236,14 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
                       Text(
                         _monthName(selectedDate.month),
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 0, 0, 0),
                           fontSize: 18,
                         ),
                       ),
                       Text(
                         _weekdayName(selectedDate.weekday),
                         style: const TextStyle(
-                          color: Colors.white70,
+                          color: Color.fromARGB(179, 46, 43, 43),
                           fontSize: 16,
                         ),
                       ),
@@ -205,11 +254,17 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.clear, color: Colors.white),
+            icon: const Icon(
+              Icons.clear,
+              color: Color.fromARGB(255, 137, 0, 0),
+            ),
             onPressed: _clearDateFilter,
           ),
           IconButton(
-            icon: const Icon(Icons.calendar_today, color: Colors.white),
+            icon: const Icon(
+              Icons.calendar_today,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
             onPressed: _pickDate,
           ),
         ],
@@ -217,47 +272,9 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
     );
   }
 
-  // ================= SCHEDULE LIST =================
-
-  Widget _buildScheduleList() {
-    final tutors = mockTutors.where((tutor) {
-      return tutor.availability.any((slot) {
-        final d = slot["date"] as DateTime;
-        return isSameDate(d, selectedDate);
-      });
-    }).toList();
-
-    if (tutors.isEmpty) {
-      return const Center(
-        child: Text(
-          "No schedules for this date",
-          style: TextStyle(color: Colors.white),
-        ),
-      );
-    }
-
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: tutors.length,
-      itemBuilder: (context, index) {
-        final tutor = tutors[index];
-
-        final sessionsToday = tutor.availability.where((slot) {
-          final d = slot["date"] as DateTime;
-          return isSameDate(d, selectedDate);
-        }).toList();
-
-        return TutorScheduleTile(
-          tutorName: tutor.name,
-          subjects: tutor.subjects,
-          sessions: sessionsToday,
-        );
-      },
-    );
-  }
-
   // ================= MODIFY BUTTON =================
 
+  /// Button at bottom to modify a session
   Widget _buildModifyButton() {
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -287,7 +304,7 @@ class _AdminScheduleScreenState extends State<AdminScheduleScreen> {
 }
 
 // ================= COMPONENTS =================
-
+/// Card to display a single session
 class SessionCard extends StatelessWidget {
   final String subject;
   final String time;
@@ -324,6 +341,7 @@ class SessionCard extends StatelessWidget {
   }
 }
 
+/// Tile for a tutor with all sessions of the selected date
 class TutorScheduleTile extends StatelessWidget {
   final String tutorName;
   final List<Map<String, dynamic>> sessions;
@@ -342,7 +360,8 @@ class TutorScheduleTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
+        color: const Color.fromARGB(255, 173, 238, 251)
+          ..withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -354,14 +373,20 @@ class TutorScheduleTile extends StatelessWidget {
               children: [
                 const CircleAvatar(
                   radius: 22,
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.person, color: Color(0xFF2B3FAE)),
+                  backgroundColor: Color.fromARGB(255, 164, 241, 156),
+                  child: Icon(
+                    Icons.person,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Text(
                   tutorName,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),
@@ -371,13 +396,15 @@ class TutorScheduleTile extends StatelessWidget {
             child: Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: sessions.map((slot) {
-                return SessionCard(
-                  slot["subject"],
-                  slot["time"],
-                  slot["mode"],
-                );
-              }).toList(),
+              children: sessions
+                  .map(
+                    (slot) => SessionCard(
+                      slot["subject"],
+                      slot["time"],
+                      slot["mode"],
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],
@@ -385,3 +412,5 @@ class TutorScheduleTile extends StatelessWidget {
     );
   }
 }
+
+
