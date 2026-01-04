@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
 
-class StudentAttendanceOverviewScreen extends StatelessWidget {
+class StudentAttendanceOverviewScreen extends StatefulWidget {
   const StudentAttendanceOverviewScreen({super.key});
+
+  @override
+  State<StudentAttendanceOverviewScreen> createState() =>
+      _StudentAttendanceOverviewScreenState();
+}
+
+class _StudentAttendanceOverviewScreenState
+    extends State<StudentAttendanceOverviewScreen> {
+  
+  // --- FIXED NAVIGATION LOGIC ---
+  void _onBottomNavTapped(int index) {
+    if (index == 0) {
+      Navigator.pushNamed(context, '/student_dashboard');
+    } else if (index == 1) {
+       // We are basically already in the attendance section
+       Navigator.pushNamed(context, '/student_attendance');
+    } else if (index == 2) {
+      Navigator.pushNamed(context, '/notification');
+    } else if (index == 3) {
+      Navigator.pushNamed(context, '/profile');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +33,8 @@ class StudentAttendanceOverviewScreen extends StatelessWidget {
         selectedItemColor: const Color(0xFF3F51B5),
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
-        currentIndex: 1,
+        currentIndex: 1, // 'Attendance' is highlighted
+        onTap: _onBottomNavTapped, // Connects the function
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(
@@ -48,7 +71,6 @@ class StudentAttendanceOverviewScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // FIXED: Changed to standard arrow_back icon
                     IconButton(
                       icon: const Icon(
                         Icons.arrow_back,
@@ -89,7 +111,6 @@ class StudentAttendanceOverviewScreen extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
-                      // FIXED: using withValues to avoid deprecation warning
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 10,
