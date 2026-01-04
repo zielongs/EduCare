@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
-Tested by   : 
+Updated by  : Amir Lukman
+Tested by   : Amir Lukman
 Date        : 28 December 2025
 Description : 
 Student Dashboard Screen for the EduCare App.
@@ -12,9 +12,6 @@ Student Dashboard Screen for the EduCare App.
 --------------------------------------------------*/
 
 import 'package:flutter/material.dart';
-// import 'student_schedule.dart';      // Attendance & schedule screen
-// import 'student_profile.dart';       // Student profile screen
-// import 'student_replacement.dart';   // Replacement request screen
 
 class StudentDashboardScreen extends StatelessWidget {
   const StudentDashboardScreen({super.key});
@@ -27,34 +24,24 @@ class StudentDashboardScreen extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.indigo,
         unselectedItemColor: Colors.grey,
-        currentIndex: 0, // Home tab
-        // Navigation handling (COMMENTED for future use)
+        currentIndex: 0, // Home tab is selected
         onTap: (index) {
-          if (index == 0) return; // Stay on Home
-
+          // Navigation Logic matches main.dart routes
           switch (index) {
-            /* 
+            case 0:
+              // Already on Dashboard
+              break;
             case 1:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const StudentScheduleScreen(),
-                ),
-              );
+              Navigator.pushNamed(context, '/student_attendance');
               break;
-
+            case 2:
+              Navigator.pushNamed(context, '/notification');
+              break;
             case 3:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const StudentProfileScreen(),
-                ),
-              );
+              Navigator.pushNamed(context, '/profile');
               break;
-            */
           }
         },
-
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -98,14 +85,23 @@ class StudentDashboardScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.indigo,
-                      child: Icon(Icons.grid_view_rounded, color: Colors.white),
+                    // This button opens the MENU
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/student_menu');
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.indigo,
+                        child: Icon(
+                          Icons.grid_view_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                     const CircleAvatar(
                       backgroundImage: NetworkImage(
-                        'https://tinyurl.com/student-avatar-demo',
-                      ), // Replace with local asset later
+                        'https://i.pravatar.cc/150?img=11',
+                      ),
                     ),
                   ],
                 ),
@@ -126,7 +122,7 @@ class StudentDashboardScreen extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 const SizedBox(height: 10),
-                _buildUpcomingClassCard(),
+                _buildUpcomingClassCard(context),
 
                 const SizedBox(height: 20),
 
@@ -136,7 +132,7 @@ class StudentDashboardScreen extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 const SizedBox(height: 10),
-                _buildNotificationTile(),
+                _buildNotificationTile(context),
 
                 const SizedBox(height: 20),
 
@@ -159,29 +155,17 @@ class StudentDashboardScreen extends StatelessWidget {
                 Row(
                   children: [
                     _buildQuickMenuButton(
+                      context,
                       "Manage\nAttendance",
                       const Color(0xFFB2EBF2),
-                      /* onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const StudentScheduleScreen(),
-                          ),
-                        );
-                      }, */
+                      '/student_attendance', // Link to Attendance
                     ),
                     const SizedBox(width: 15),
                     _buildQuickMenuButton(
+                      context,
                       "Manage\nReplacement",
                       const Color(0xFF81D4FA),
-                      /* onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const StudentReplacementScreen(),
-                          ),
-                        );
-                      }, */
+                      '/student_replacement', // Link to Replacement
                     ),
                   ],
                 ),
@@ -196,7 +180,7 @@ class StudentDashboardScreen extends StatelessWidget {
   }
 
   /* ---------------- Upcoming Class Card ---------------- */
-  Widget _buildUpcomingClassCard() {
+  Widget _buildUpcomingClassCard(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -228,7 +212,10 @@ class StudentDashboardScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Link "View Details" to Schedule
+                Navigator.pushNamed(context, '/student_schedule');
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF81D4FA),
                 shape: RoundedRectangleBorder(
@@ -247,34 +234,39 @@ class StudentDashboardScreen extends StatelessWidget {
   }
 
   /* ---------------- Notification Tile ---------------- */
-  Widget _buildNotificationTile() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFB2EBF2).withOpacity(0.9),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: const Row(
-        children: [
-          Icon(Icons.notifications_active, color: Colors.orangeAccent),
-          SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Notices from admin',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '30 minutes ago',
-                  style: TextStyle(fontSize: 10, color: Colors.black54),
-                ),
-              ],
+  Widget _buildNotificationTile(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/notification');
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFB2EBF2).withOpacity(0.9),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: const Row(
+          children: [
+            Icon(Icons.notifications_active, color: Colors.orangeAccent),
+            SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Notices from admin',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '30 minutes ago',
+                    style: TextStyle(fontSize: 10, color: Colors.black54),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Icon(Icons.arrow_circle_right_outlined),
-        ],
+            Icon(Icons.arrow_circle_right_outlined),
+          ],
+        ),
       ),
     );
   }
@@ -329,25 +321,40 @@ class StudentDashboardScreen extends StatelessWidget {
   }
 
   /* ---------------- Quick Menu Button ---------------- */
-  Widget _buildQuickMenuButton(String label, Color color) {
-    return Container(
-      height: 70,
-      width: 110,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 5, offset: Offset(0, 3)),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+  Widget _buildQuickMenuButton(
+    BuildContext context,
+    String label,
+    Color color,
+    String routeName,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, routeName);
+      },
+      child: Container(
+        height: 70,
+        width: 110,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+          ),
         ),
       ),
     );
   }
 }
+
