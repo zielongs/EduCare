@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
-Tested by   : 
+Updated by  : Siti Norlie Yana
+Tested by   : Siti Norlie Yana
 Date        : 28 December 2025
 Description : 
 Admin Menu Screen for the EduCare App.
@@ -12,6 +12,7 @@ Admin Menu Screen for the EduCare App.
 --------------------------------------------------*/
 
 import 'package:flutter/material.dart';
+import 'admin_home_screen.dart'; // import your new AdminHomeScreen
 
 class AdminMenuScreen extends StatelessWidget {
   const AdminMenuScreen({super.key});
@@ -31,7 +32,8 @@ class AdminMenuScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 50),
-            // Header
+
+            // ===== HEADER =====
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -56,12 +58,13 @@ class AdminMenuScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 48),
+                  const SizedBox(width: 48), // To balance the arrow
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            // Admin Menu List
+
+            // ===== MENU LIST =====
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -90,7 +93,7 @@ class AdminMenuScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 4,
             offset: const Offset(0, 4),
           ),
@@ -106,28 +109,55 @@ class AdminMenuScreen extends StatelessWidget {
           color: Colors.black54,
         ),
         onTap: () {
-          // --- NAVIGATION LOGIC ---
+          // ------------------ NAVIGATION LOGIC ------------------
           switch (title) {
             case "DASHBOARD":
-              Navigator.pushNamed(context, '/admin_dashboard');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AdminHomeScreen(initialIndex: 0),
+                ),
+              );
               break;
+
             case "SCHEDULE":
-              Navigator.pushNamed(context, '/admin_schedule_screen');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AdminHomeScreen(initialIndex: 1),
+                ),
+              );
               break;
+
             case "VIEW ATTENDANCE":
-              Navigator.pushNamed(context, '/admin_attendance_screen');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AdminHomeScreen(initialIndex: 2),
+                ),
+              );
               break;
+
             case "TUTOR AVAILABILITY":
-              Navigator.pushNamed(context, '/tutor_availability_screen');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AdminHomeScreen(initialIndex: 3),
+                ),
+              );
               break;
+
             case "REPLACEMENT REQUEST":
+              // Replace with your replacement request screen route
               Navigator.pushNamed(context, '/admin_replacement');
               break;
+
             case "NOTIFICATIONS":
+              // Replace with your notifications screen route
               Navigator.pushNamed(context, '/admin_notifications');
               break;
+
             case "LOGOUT":
-              // Navigates back to HomePage and clears history
               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               break;
           }
@@ -136,3 +166,4 @@ class AdminMenuScreen extends StatelessWidget {
     );
   }
 }
+
