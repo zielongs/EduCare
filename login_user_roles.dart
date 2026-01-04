@@ -3,9 +3,9 @@ Author      : Alyssa Annabelle binti James Pekan
 Updated by  : Noraziela Binti Jepsin
 Tested by   : Noraziela Binti Jepsin
 Date        : 03 January 2026
-Description : 
-This screen is used to select user roles for login. 
-It allows users to choose between Student, Administrator, 
+Description :
+This screen is used to select user roles for login.
+It allows users to choose between Student, Administrator,
 and Tutor roles for accessing their respective login screens.
 --------------------------------------------------*/
 import 'package:flutter/material.dart';
@@ -67,32 +67,22 @@ class LoginUserRolesScreen extends StatelessWidget {
                           label: 'STUDENT',
                           onTap: () => _tryPushNamed(
                             context,
-                            routeName: '/student',
-                            fallbackMessage:
-                                'Student screen not linked yet (route: /student).',
+                            routeName: '/student_login',
                           ),
                         ),
                         const SizedBox(height: 14),
 
                         _RoleCard(
                           label: 'ADMINISTRATOR',
-                          onTap: () => _tryPushNamed(
-                            context,
-                            routeName: '/admin',
-                            fallbackMessage:
-                                'Admin screen not linked yet (route: /admin).',
-                          ),
+                          onTap: () =>
+                              _tryPushNamed(context, routeName: '/admin_login'),
                         ),
                         const SizedBox(height: 14),
 
                         _RoleCard(
                           label: 'TUTOR',
-                          onTap: () => _tryPushNamed(
-                            context,
-                            routeName: '/tutor',
-                            fallbackMessage:
-                                'Tutor screen not linked yet (route: /tutor).',
-                          ),
+                          onTap: () =>
+                              _tryPushNamed(context, routeName: '/tutor_login'),
                         ),
                       ],
                     ),
@@ -106,18 +96,19 @@ class LoginUserRolesScreen extends StatelessWidget {
     );
   }
 
+  // ✅ FIXED METHOD
   static Future<void> _tryPushNamed(
     BuildContext context, {
     required String routeName,
-    required String fallbackMessage,
+    String fallbackMessage = 'Route not found',
   }) async {
     try {
       await Navigator.pushNamed(context, routeName);
     } catch (_) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(fallbackMessage)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(fallbackMessage)));
       }
     }
   }
@@ -127,10 +118,7 @@ class _CircleIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _CircleIconButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _CircleIconButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +146,7 @@ class _RoleCard extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _RoleCard({
-    required this.label,
-    required this.onTap,
-  });
+  const _RoleCard({required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +193,7 @@ class _RoleCard extends StatelessWidget {
                   size: 18,
                   color: Colors.black87,
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -216,4 +201,3 @@ class _RoleCard extends StatelessWidget {
     );
   }
 }
-
