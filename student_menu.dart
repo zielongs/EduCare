@@ -1,14 +1,10 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
-Tested by   : 
-Date        : 28 December 2025
+Updated by  : [Your Name/Team Name]
+Date        : [Current Date]
 Description : 
 Student Menu Screen for the EduCare App.
-- Provides quick access to Student features
-- Gradient background consistent with EduCare branding
-- Each menu button navigates to the respective screen
-- Logout clears the navigation stack and returns to the login/home screen
+- Updated navigation routes to match final project structure.
 --------------------------------------------------*/
 
 import 'package:flutter/material.dart';
@@ -60,7 +56,7 @@ class StudentMenuScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Senarai Menu Pelajar
+            // Student Menu List
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -101,7 +97,8 @@ class StudentMenuScreen extends StatelessWidget {
         onTap: () {
           switch (title) {
             case "PROFILE":
-              Navigator.pushNamed(context, '/student_profile');
+              // Updated to match standard route
+              Navigator.pushNamed(context, '/profile'); 
               break;
             case "DASHBOARD":
               Navigator.pushNamed(context, '/student_dashboard');
@@ -110,13 +107,15 @@ class StudentMenuScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/student_schedule');
               break;
             case "MANAGE ATTENDANCE":
-              Navigator.pushNamed(context, '/student_overview');
+              // CRITICAL FIX: Links to Attendance Screen (not Overview)
+              Navigator.pushNamed(context, '/student_attendance'); 
               break;
             case "REPLACEMENT REQUEST":
               Navigator.pushNamed(context, '/student_replacement');
               break;
             case "NOTIFICATIONS":
-              Navigator.pushNamed(context, '/student_notifications');
+              // Updated to match standard route
+              Navigator.pushNamed(context, '/notification'); 
               break;
             case "LOGOUT":
               // Clears navigation history and returns to Home Page
