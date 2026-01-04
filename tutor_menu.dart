@@ -130,13 +130,13 @@ class TutorMenuScreen extends StatelessWidget {
               ); // TODO: Change to /tutor_schedule
               break;
             case "DASHBOARD":
-              Navigator.pushNamed(context, '/tutor_dashboard');
+              Navigator.pushNamed(context, '/tutor-dashboard');
               break;
             case "MANAGE AVAILABILITY":
-              Navigator.pushNamed(context, '/tutor_availability');
+              Navigator.pushNamed(context, '/tutor-availability');
               break;
             case "NOTIFICATIONS":
-              Navigator.pushNamed(context, '/tutor_notifications');
+              Navigator.pushNamed(context, '/tutor-notifications');
               break;
             case "LOGOUT":
               // Clears navigation stack and returns to login/home screen
@@ -148,3 +148,4 @@ class TutorMenuScreen extends StatelessWidget {
     );
   }
 }
+
