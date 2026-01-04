@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Siti Norlie Yana
-Updated by  : 
-Tested by   : 
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 02 January 2026
 Description : 
 This screen displays a list of tutors and allows
@@ -11,17 +11,21 @@ availability filters, and a list of tutor cards.
 --------------------------------------------------*/
 
 import 'package:flutter/material.dart';
-import 'models/tutor.dart';
-import 'widgets/search_bar.dart';
-import 'widgets/tutor_card.dart';
-import 'widgets/filter_card.dart';
-import 'package:tutor/widgets/shared_bottom_nav.dart';
+import '../models/tutor.dart';
+import '../widgets/search_bar.dart';
+import '../widgets/tutor_card.dart';
+import '../widgets/filter_card.dart';
 
 /// Screen to display and filter tutor availability
 class TutorAvailabilityScreen extends StatefulWidget {
   final List<Tutor> tutors;
+  final VoidCallback? onBackToDashboard; // Callback for back button
 
-  const TutorAvailabilityScreen({super.key, required this.tutors});
+  const TutorAvailabilityScreen({
+    super.key,
+    required this.tutors,
+    this.onBackToDashboard,
+  });
 
   @override
   State<TutorAvailabilityScreen> createState() =>
@@ -94,27 +98,27 @@ class _TutorAvailabilityScreenState extends State<TutorAvailabilityScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(0, 31, 28, 28),
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back,
-            color: Color.fromARGB(255, 12, 12, 12),
+            Icons.arrow_circle_left_outlined,
+            size: 40,
+            color: Colors.black,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: widget.onBackToDashboard ?? () => Navigator.pop(context),
         ),
         title: const Text(
           "FIND TUTOR",
           style: TextStyle(
-            color: Color.fromARGB(255, 3, 3, 3),
+            color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
       ),
-      bottomNavigationBar: buildSharedBottomNav(context, 3),
-      // Bottom navigation bar (index 3 = Tutors)
+      // ===== BODY =====
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -143,7 +147,6 @@ class _TutorAvailabilityScreenState extends State<TutorAvailabilityScreen> {
                 showNotAvailable: tempShowNotAvailable,
                 selectedSubject: tempSelectedSubject,
                 subjects: subjects,
-
                 onAvailableChanged: (value) {
                   setState(() {
                     tempShowAvailable = value!;
@@ -191,7 +194,7 @@ class _TutorAvailabilityScreenState extends State<TutorAvailabilityScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 9, 9, 9),
+                    color: Colors.black,
                   ),
                 ),
               ),
