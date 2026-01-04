@@ -81,7 +81,7 @@ class TutorDashboard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // 🔹 TOP LEFT – Tutor Menu
+                    // TOP LEFT – Tutor Menu
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/tutor-menu');
@@ -95,7 +95,7 @@ class TutorDashboard extends StatelessWidget {
                       ),
                     ),
 
-                    // 🔹 TOP RIGHT – Profile
+                    // TOP RIGHT – Profile
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/tutor-profile');
@@ -348,3 +348,4 @@ class TutorDashboard extends StatelessWidget {
     );
   }
 }
+
