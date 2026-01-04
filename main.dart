@@ -29,7 +29,7 @@ import 'tutor_login.dart';
 import 'tutor_menu.dart';
 import 'tutor_profile.dart';
 import 'update_tutor_profile.dart';
-import 'tutor_availability_screen.dart';
+import 'admin_tutor_availability_screen.dart';
 
 // Student Screens
 import 'student_login.dart';
@@ -54,34 +54,30 @@ class EduCareApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'EduCare System',
-      theme: ThemeData(
-        useMaterial3: true,
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(useMaterial3: true, primarySwatch: Colors.blue),
 
       // Change this if you want HomePage instead
       initialRoute: '/',
 
       routes: {
         // Core Routes
-        '/': (context) => const ScreenLauncher(),
-        '/home': (context) => const HomePage(),
+        '/launcher': (context) => const ScreenLauncher(),
+        '/': (context) => const HomePage(),
         '/roles': (context) => const LoginUserRolesScreen(),
 
         // Admin Routes
         '/admin': (context) => const AdminLoginScreen(),
         '/admin_menu': (context) => const AdminMenuScreen(),
         '/admin_dashboard': (context) => const AdminDashboardScreen(),
-        '/admin-schedule': (context) => const AdminScheduleScreen(),
-        '/admin-attendance': (context) => const AdminAttendanceScreen(),
+        '/admin_schedule_screen': (context) => const AdminScheduleScreen(),
+        '/admin_attendance_screen': (context) => const AdminAttendanceScreen(),
 
         // Tutor Routes
         '/tutor': (context) => const TutorLoginScreen(),
         '/tutor_menu': (context) => const TutorMenuScreen(),
         '/tutor_profile': (context) => const TutorProfileScreen(),
-        '/update_tutor_profile': (context) =>
-            const UpdateTutorProfileScreen(),
-        '/tutor-availability': (context) =>
+        '/update_tutor_profile': (context) => const UpdateTutorProfileScreen(),
+        '/tutor_availability_screen': (context) =>
             TutorAvailabilityScreen(tutors: mockTutors),
 
         // Student Routes
@@ -96,3 +92,4 @@ class EduCareApp extends StatelessWidget {
     );
   }
 }
+
