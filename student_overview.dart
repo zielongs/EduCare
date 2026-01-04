@@ -1,3 +1,14 @@
+/*--------------------------------------------------
+Author      : Amir Lukman Bin Rozalan
+Updated by  : Amir Lukman
+Tested by   : 
+Date        : 03 January 2026
+Description : 
+Student Attendance Overview Screen.
+- Displays visual statistics of student attendance.
+- Shows total Present, Absent, and Late counts.
+--------------------------------------------------*/
+
 import 'package:flutter/material.dart';
 
 class StudentAttendanceOverviewScreen extends StatefulWidget {
@@ -19,9 +30,9 @@ class _StudentAttendanceOverviewScreenState
        // We are basically already in the attendance section
        Navigator.pushNamed(context, '/student_attendance');
     } else if (index == 2) {
-      Navigator.pushNamed(context, '/student-notification');
+      Navigator.pushNamed(context, '/notification');
     } else if (index == 3) {
-      Navigator.pushNamed(context, '/student_profile');
+      Navigator.pushNamed(context, '/profile');
     }
   }
 
@@ -273,4 +284,3 @@ class _StudentAttendanceOverviewScreenState
     );
   }
 }
-
