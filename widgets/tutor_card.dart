@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Siti Norlie Yana
-Updated by  : 
-Tested by   : 
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 02 January 2026
 Description : 
 A reusable card widget to display basic tutor info:
@@ -14,7 +14,7 @@ with full tutor details.
 
 import 'package:flutter/material.dart';
 import '../models/tutor.dart';
-import '../screens/tutor_detail_screen.dart';
+import '../admin_tutor_detail_screen.dart';
 
 /// Card widget showing tutor info
 class TutorCard extends StatelessWidget {
@@ -51,3 +51,5 @@ class TutorCard extends StatelessWidget {
     );
   }
 }
+
+
