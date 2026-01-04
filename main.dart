@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Siti Norlie Yana
-Updated by  : Noraziela Binti Jepsin
-Tested by   : Noraziela Binti Jepsin
+Updated by  : Amir Lukaman
+Tested by   : Amir Lukman
 Date        : 02 January 2026
 Description : 
 Main entry point for the Educare App.
@@ -19,7 +19,7 @@ import 'login_user_roles.dart';
 // Admin Screens
 import 'admin_login.dart';
 import 'admin_menu.dart';
-import 'admin_home_screen.dart'; // NEW: replaces individual admin screens
+import 'admin_home_screen.dart'; 
 import 'admin_notifications.dart';
 
 // Tutor Screens
@@ -42,6 +42,12 @@ import 'student_dashboard.dart';
 import 'student_profile.dart';
 import 'update_student_profile.dart';
 import 'student_notifications.dart';
+
+// --- YOUR NEW IMPORTS (I added these back) ---
+import 'student_schedule.dart';
+import 'student_attendance.dart';
+import 'student_overview.dart';
+import 'student_replacement.dart';
 
 // Data
 import 'data/mock_tutors.dart';
@@ -71,8 +77,7 @@ class EduCareApp extends StatelessWidget {
         // Admin Routes
         '/admin_login': (context) => const AdminLoginScreen(),
         '/admin_menu': (context) => const AdminMenuScreen(),
-        '/admin_home': (context) =>
-            const AdminHomeScreen(), // NEW unified admin screen
+        '/admin_home': (context) => const AdminHomeScreen(),
         '/admin-notifications': (context) => const AdminNotifications(),
 
         // Tutor Routes
@@ -92,11 +97,23 @@ class EduCareApp extends StatelessWidget {
         '/student_login': (context) => const StudentLoginScreen(),
         '/student_register': (context) => const StudentRegisterScreen(),
         '/student_menu': (context) => const StudentMenuScreen(),
+        
+        // Dashboard
         '/student_dashboard': (context) => const StudentDashboardScreen(),
-        '/student_profile': (context) => const StudentProfileScreen(),
-        '/update_student_profile': (context) =>
-            const UpdateStudentProfileScreen(),
-        '/student-notifications': (context) => const StudentNotifications(),
+
+        // --- FIXED ROUTES TO MATCH YOUR CODE ---
+        // Your code calls '/profile', friend had '/student_profile'
+        '/profile': (context) => const StudentProfileScreen(), 
+        '/update_student_profile': (context) => const UpdateStudentProfileScreen(),
+        
+        // Your code calls '/notification', friend had '/student-notifications'
+        '/notification': (context) => const StudentNotifications(),
+
+        // --- YOUR NEW SCREENS (Added these back) ---
+        '/student_schedule': (context) => const StudentScheduleScreen(),
+        '/student_attendance': (context) => const StudentAttendanceScreen(),
+        '/student_overview': (context) => const StudentAttendanceOverviewScreen(),
+        '/student_replacement': (context) => const StudentReplacementScreen(),
       },
     );
   }
