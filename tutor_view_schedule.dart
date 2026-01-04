@@ -74,7 +74,7 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 🔹 HEADER
+              // HEADER
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -112,7 +112,7 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
                 ),
               ),
 
-              // 🔹 DAY SELECTOR
+              // DAY SELECTOR
               SizedBox(
                 height: 90,
                 child: ListView.builder(
@@ -170,7 +170,7 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
 
               const SizedBox(height: 20),
 
-              // 🔹 TIMELINE
+              // TIMELINE
               Expanded(
                 child: _scheduleData.containsKey(_selectedDateIndex)
                     ? ListView.builder(
@@ -248,7 +248,7 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
     );
   }
 
-  /// 🔹 Timeline item
+  /// Timeline item
   Widget _buildTimelineItem(
     String start,
     String end,
@@ -368,3 +368,4 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
     );
   }
 }
+
