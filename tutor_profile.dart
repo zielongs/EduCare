@@ -36,7 +36,22 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.indigo,
         unselectedItemColor: Colors.grey,
-        currentIndex: 3,
+        currentIndex: 3, // Profile
+        onTap: (index) {
+          if (index == 3) return; // already on Profile
+
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/tutor_dashboard');
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/view-schedule');
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, '/tutor-notifications');
+              break;
+          }
+        },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -53,6 +68,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
+
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
