@@ -14,8 +14,8 @@ Student Profile Screen for the EduCare App.
 import 'package:flutter/material.dart';
 import 'update_student_profile.dart';
 import 'student_dashboard.dart';
-// import 'student_overview.dart';        // Attendance screen (future use)
-// import 'student_notifications.dart';  // Notifications screen (future use)
+import 'student_overview.dart';
+import 'student_notifications.dart';
 
 class StudentProfileScreen extends StatefulWidget {
   const StudentProfileScreen({super.key});
@@ -61,12 +61,11 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               );
               break;
 
-            /* Future implementation
             case 1:
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const StudentOverviewScreen(),
+                  builder: (_) => const StudentAttendanceOverviewScreen(),
                 ),
               );
               break;
@@ -74,12 +73,9 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
             case 2:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const StudentNotificationsScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const StudentNotifications()),
               );
               break;
-            */
           }
         },
 
