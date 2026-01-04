@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'student_overview.dart';
 
 class StudentAttendanceScreen extends StatefulWidget {
   const StudentAttendanceScreen({super.key});
@@ -12,11 +11,17 @@ class StudentAttendanceScreen extends StatefulWidget {
 class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   String? _attendanceStatus;
 
+  // --- FIXED NAVIGATION LOGIC ---
   void _onBottomNavTapped(int index) {
     if (index == 0) {
+      Navigator.pushNamed(context, '/student_dashboard');
     } else if (index == 1) {
+      // Already on Attendance, do nothing
     } else if (index == 2) {
-    } else if (index == 3) {}
+      Navigator.pushNamed(context, '/notification');
+    } else if (index == 3) {
+      Navigator.pushNamed(context, '/profile');
+    }
   }
 
   @override
@@ -27,8 +32,8 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         selectedItemColor: const Color(0xFF3F51B5),
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
-        currentIndex: 1,
-        onTap: _onBottomNavTapped,
+        currentIndex: 1, // 'Attendance' is highlighted
+        onTap: _onBottomNavTapped, // Connects the function
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(
@@ -222,13 +227,8 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                 const SizedBox(height: 30),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const StudentAttendanceOverviewScreen(),
-                      ),
-                    );
+                    // LINK TO OVERVIEW SCREEN
+                    Navigator.pushNamed(context, '/student_overview');
                   },
                   child: Container(
                     width: double.infinity,
