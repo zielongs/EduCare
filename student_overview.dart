@@ -19,9 +19,9 @@ class _StudentAttendanceOverviewScreenState
        // We are basically already in the attendance section
        Navigator.pushNamed(context, '/student_attendance');
     } else if (index == 2) {
-      Navigator.pushNamed(context, '/notification');
+      Navigator.pushNamed(context, '/student-notification');
     } else if (index == 3) {
-      Navigator.pushNamed(context, '/profile');
+      Navigator.pushNamed(context, '/student_profile');
     }
   }
 
@@ -273,3 +273,4 @@ class _StudentAttendanceOverviewScreenState
     );
   }
 }
+
