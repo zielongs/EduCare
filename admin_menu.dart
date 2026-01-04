@@ -154,7 +154,7 @@ class AdminMenuScreen extends StatelessWidget {
 
             case "NOTIFICATIONS":
               // Replace with your notifications screen route
-              Navigator.pushNamed(context, '/admin_notifications');
+              Navigator.pushNamed(context, '/admin-notifications');
               break;
 
             case "LOGOUT":
@@ -166,4 +166,5 @@ class AdminMenuScreen extends StatelessWidget {
     );
   }
 }
+
 
