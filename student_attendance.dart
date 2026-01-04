@@ -18,9 +18,9 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     } else if (index == 1) {
       // Already on Attendance, do nothing
     } else if (index == 2) {
-      Navigator.pushNamed(context, '/notification');
+      Navigator.pushNamed(context, '/student-notification');
     } else if (index == 3) {
-      Navigator.pushNamed(context, '/profile');
+      Navigator.pushNamed(context, '/student_profile');
     }
   }
 
@@ -300,3 +300,4 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     );
   }
 }
+
