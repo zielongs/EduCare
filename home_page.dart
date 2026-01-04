@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Alyssa Annabelle binti James Pekan
-Updated by  : Noraziela Binti Jepsin
-Tested by   : Noraziela Binti Jepsin
+Updated by  : Noraziela binti Jepsin
+Tested by   : Noraziela binti Jepsin
 Date        : 03 January 2026
 Description : 
 This screen is the home page of the EduCare app. 
@@ -10,6 +10,7 @@ and buttons for login and registration.
 --------------------------------------------------*/
 import 'package:flutter/material.dart';
 import 'login_user_roles.dart';
+import 'student_register.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -127,11 +128,10 @@ class HomePage extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Register screen not connected yet.',
-                            ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const StudentRegisterScreen(),
                           ),
                         );
                       },
@@ -175,4 +175,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
