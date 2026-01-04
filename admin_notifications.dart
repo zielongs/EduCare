@@ -98,10 +98,10 @@ class _AdminNotificationsState extends State<AdminNotifications> {
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
                       onPressed: () {
-                        // 🔹 BACK TO EXISTING ADMIN DASHBOARD
+                        // BACK TO EXISTING ADMIN DASHBOARD
                         Navigator.pushReplacementNamed(
                           context,
-                          '/admin-dashboard',
+                          '/admin_dashboard',
                         );
                       },
                     ),
@@ -249,3 +249,4 @@ class _AdminNotificationsState extends State<AdminNotifications> {
     );
   }
 }
+
