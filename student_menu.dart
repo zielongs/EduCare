@@ -1,6 +1,6 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
+Updated by  : Amir Lukman
 Date        : 28 December 2026
 Description : 
 Student Menu Screen for the EduCare App.
@@ -97,8 +97,8 @@ class StudentMenuScreen extends StatelessWidget {
         onTap: () {
           switch (title) {
             case "PROFILE":
-              // Updated to match standard route
-              Navigator.pushNamed(context, '/student_profile');
+              // FIXED: Changed from '/student_profile' to '/profile'
+              Navigator.pushNamed(context, '/profile'); 
               break;
             case "DASHBOARD":
               Navigator.pushNamed(context, '/student_dashboard');
@@ -113,11 +113,10 @@ class StudentMenuScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/student_replacement');
               break;
             case "NOTIFICATIONS":
-              // Updated to match standard route
-              Navigator.pushNamed(context, '/student-notifications');
+              // FIXED: Changed from '/student-notifications' to '/notification'
+              Navigator.pushNamed(context, '/notification'); 
               break;
             case "LOGOUT":
-              // Clears navigation history and returns to Home Page
               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               break;
           }
