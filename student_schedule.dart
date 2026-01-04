@@ -1,3 +1,15 @@
+/*--------------------------------------------------
+Author      : Amir Lukman Bin Rozalan
+Updated by  : Amir Lukman Bin Rozalan
+Tested by   : 
+Date        : 03 January 2026
+Description : 
+Student Class Schedule Screen.
+- Displays the weekly timetable for the student.
+- Allows date selection to view specific classes.
+- Shows class details (Time, Subject, Tutor, Mode).
+--------------------------------------------------*/
+
 import 'package:flutter/material.dart';
 
 class StudentScheduleScreen extends StatefulWidget {
@@ -103,9 +115,9 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
     } else if (index == 1) {
        Navigator.pushNamed(context, '/student_attendance');
     } else if (index == 2) {
-       Navigator.pushNamed(context, '/student-notifications');
+       Navigator.pushNamed(context, '/notification');
     } else if (index == 3) {
-       Navigator.pushNamed(context, '/student_profile');
+       Navigator.pushNamed(context, '/profile');
     }
   }
 
@@ -160,7 +172,7 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
                         size: 32,
                         color: Colors.black87,
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.maybePop(context),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                     ),
@@ -241,7 +253,8 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         itemCount: _scheduleData[_selectedDateIndex]!.length,
                         itemBuilder: (context, index) {
-                          final data = _scheduleData[_selectedDateIndex]![index];
+                          final data =
+                              _scheduleData[_selectedDateIndex]![index];
                           return _buildTimelineItem(
                             data['timeStart']!,
                             data['timeEnd']!,
@@ -392,5 +405,3 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
     );
   }
 }
-
-
