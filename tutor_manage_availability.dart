@@ -99,7 +99,7 @@ class _TutorManageAvailabilityState extends State<TutorManageAvailability> {
           IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              // 🔹 Go back to Tutor Dashboard
+              // Go back to Tutor Dashboard
               Navigator.pushReplacementNamed(context, '/tutor-dashboard');
             },
           ),
@@ -188,7 +188,7 @@ class _TutorManageAvailabilityState extends State<TutorManageAvailability> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // START & END TIME (SIDE BY SIDE)
+          // START & END TIME
           Row(
             children: [
               Expanded(
@@ -372,3 +372,4 @@ class _TutorManageAvailabilityState extends State<TutorManageAvailability> {
     );
   }
 }
+
