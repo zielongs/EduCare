@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Siti Norlie Yana
-Updated by  : 
-Tested by   : 
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 02 January 2026
 Description : 
 This screen displays detailed information about a 
@@ -78,7 +78,11 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(
+            Icons.arrow_circle_left_outlined,
+            size: 40,
+            color: Color.fromARGB(255, 0, 0, 0),
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -109,7 +113,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: Card(
-                    color: const Color.fromARGB(255, 166, 239, 161),
+                    color: const Color.fromARGB(255, 212, 255, 209),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -118,22 +122,55 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Tutor Name: ${widget.tutor.name}"),
-                          const SizedBox(height: 12),
-                          Text("Subjects: ${widget.tutor.subjects.join(', ')}"),
-                          const SizedBox(height: 12),
+                          // Tutor Name
                           Text(
-                            "Current Status: ${widget.tutor.isAvailable ? "Available" : "Not Available"}",
+                            "Tutor Name: ${widget.tutor.name}",
+                            style: const TextStyle(
+                              fontSize: 20, // bigger
+                              fontWeight: FontWeight.bold, // stand out
+                              color: Colors.black87,
+                            ),
                           ),
                           const SizedBox(height: 12),
-                          Text("Students: ${widget.tutor.students.join(', ')}"),
+
+                          // Subjects
+                          Text(
+                            "Subjects: ${widget.tutor.subjects.join(', ')}",
+                            style: const TextStyle(
+                              fontSize: 18, // slightly smaller than title
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // Current Status
+                          Text(
+                            "Current Status: ${widget.tutor.isAvailable ? "Available" : "Not Available"}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: widget.tutor.isAvailable
+                                  ? Colors.green[800]
+                                  : Colors.red[800],
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // Students
+                          Text(
+                            "Students: ${widget.tutor.students.join(', ')}",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black87,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 20),
 
                 // ================= DATE RANGE PICKER =================
                 const Text(
@@ -306,3 +343,4 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     );
   }
 }
+
