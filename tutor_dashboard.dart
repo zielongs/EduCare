@@ -35,7 +35,7 @@ class TutorDashboard extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/tutor-notifications');
               break;
             case 3:
-              Navigator.pushReplacementNamed(context, '/tutor-profile');
+              Navigator.pushReplacementNamed(context, '/tutor_profile');
               break;
           }
         },
@@ -84,7 +84,7 @@ class TutorDashboard extends StatelessWidget {
                     // TOP LEFT – Tutor Menu
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/tutor-menu');
+                        Navigator.pushNamed(context, '/tutor_menu');
                       },
                       child: const CircleAvatar(
                         backgroundColor: Colors.indigo,
@@ -98,7 +98,7 @@ class TutorDashboard extends StatelessWidget {
                     // TOP RIGHT – Profile
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/tutor-profile');
+                        Navigator.pushNamed(context, '/tutor_profile');
                       },
                       child: const CircleAvatar(
                         radius: 22,
@@ -348,4 +348,5 @@ class TutorDashboard extends StatelessWidget {
     );
   }
 }
+
 
