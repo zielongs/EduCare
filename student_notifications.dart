@@ -20,7 +20,7 @@ class StudentNotifications extends StatefulWidget {
 }
 
 class _StudentNotificationsState extends State<StudentNotifications> {
-  final int _currentIndex = 2; // Notifications tab
+  final int _currentIndex = 2; 
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class _StudentNotificationsState extends State<StudentNotifications> {
         ),
       ),
 
-      /* ---------------- BOTTOM NAV (STUDENT) ---------------- */
+      /* ---------------- BOTTOM NAVIGATION ---------------- */
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
@@ -148,7 +148,7 @@ class _StudentNotificationsState extends State<StudentNotifications> {
               Navigator.pushReplacementNamed(context, '/student-attendance');
               break;
             case 2:
-              return; // already here
+              return; 
             case 3:
               Navigator.pushReplacementNamed(context, '/student-profile');
               break;
@@ -220,3 +220,4 @@ class _StudentNotificationsState extends State<StudentNotifications> {
     );
   }
 }
+
