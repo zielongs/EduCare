@@ -103,7 +103,7 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
     } else if (index == 1) {
        Navigator.pushNamed(context, '/student_attendance');
     } else if (index == 2) {
-       Navigator.pushNamed(context, '/notification');
+       Navigator.pushNamed(context, '/student_notifications');
     } else if (index == 3) {
        Navigator.pushNamed(context, '/profile');
     }
@@ -392,3 +392,4 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
     );
   }
 }
+
