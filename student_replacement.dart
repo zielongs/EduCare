@@ -1,3 +1,14 @@
+/*--------------------------------------------------
+Author      : Amir Lukman Bin Rozalan
+Updated by  : Amir Lukman
+Tested by   : 
+Date        : 04 January 2026
+Description : 
+Student Replacement Class Request Screen.
+- Allows students to select a reason and a new slot.
+- Submits the replacement request to the admin.
+--------------------------------------------------*/
+
 import 'package:flutter/material.dart';
 
 class StudentReplacementScreen extends StatefulWidget {
