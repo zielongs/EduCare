@@ -13,16 +13,13 @@ Main entry point for the Educare App.
 import 'package:flutter/material.dart';
 
 // Core Screens
-import 'screen_launcher.dart';
 import 'home_page.dart';
 import 'login_user_roles.dart';
 
 // Admin Screens
 import 'admin_login.dart';
 import 'admin_menu.dart';
-import 'admin_dashboard.dart';
-import 'admin_schedule_screen.dart';
-import 'admin_attendance_screen.dart';
+import 'admin_home_screen.dart'; // NEW: replaces individual admin screens
 
 // Tutor Screens
 import 'tutor_login.dart';
@@ -56,22 +53,19 @@ class EduCareApp extends StatelessWidget {
       title: 'EduCare System',
       theme: ThemeData(useMaterial3: true, primarySwatch: Colors.blue),
 
-      // Change this if you want HomePage instead
+      // Initial screen
       initialRoute: '/',
 
       routes: {
         // Core Routes
-        '/launcher': (context) => const ScreenLauncher(),
         '/': (context) => const HomePage(),
         '/roles': (context) => const LoginUserRolesScreen(),
 
         // Admin Routes
         '/admin': (context) => const AdminLoginScreen(),
         '/admin_menu': (context) => const AdminMenuScreen(),
-        '/admin_dashboard': (context) => const AdminDashboardScreen(),
-        '/admin_schedule_screen': (context) => const AdminScheduleScreen(),
-        '/admin_attendance_screen': (context) => const AdminAttendanceScreen(),
-
+        '/admin_home': (context) =>
+            const AdminHomeScreen(), // NEW unified admin screen
         // Tutor Routes
         '/tutor': (context) => const TutorLoginScreen(),
         '/tutor_menu': (context) => const TutorMenuScreen(),
@@ -92,4 +86,5 @@ class EduCareApp extends StatelessWidget {
     );
   }
 }
+
 
