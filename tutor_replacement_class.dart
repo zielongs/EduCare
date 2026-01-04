@@ -71,7 +71,7 @@ class TutorReplacementClass extends StatelessWidget {
                       horizontal: 25,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFB2EBF2), // light blue
+                      color: const Color(0xFFB2EBF2),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Text(
@@ -148,3 +148,4 @@ class TutorReplacementClass extends StatelessWidget {
     );
   }
 }
+
