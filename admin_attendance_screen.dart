@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Siti Norlie Yana
-Updated by  : 
-Tested by   :
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 02 January 2026
 Description : 
 This screen is used by admin to view student
@@ -18,23 +18,19 @@ import 'package:printing/printing.dart'; // Print and download PDF
 
 import 'models/attendance.dart';
 import 'data/mock_attendance.dart';
-import 'widgets/shared_bottom_nav.dart';
 
 class AdminAttendanceScreen extends StatefulWidget {
-  const AdminAttendanceScreen({super.key});
+  final VoidCallback? onBackToDashboard; // Callback for back button
+
+  const AdminAttendanceScreen({super.key, this.onBackToDashboard});
 
   @override
   State<AdminAttendanceScreen> createState() => _AdminAttendanceScreenState();
 }
 
 class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
-  // Normalize date to ignore time
-  DateTime normalize(DateTime date) =>
-      DateTime(date.year, date.month, date.day);
-
   // Store selected date
-  DateTime selectedDate = DateTime.now();
-
+  late DateTime selectedDate;
   // Store attendance records
   late List<Attendance> attendanceList;
 
@@ -44,15 +40,13 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
 
     // Load mock attendance data
     attendanceList = mockAttendanceList;
-
     // Normalize selected date
-    selectedDate = normalize(selectedDate);
+    selectedDate = normalize(DateTime.now());
 
     // Debug: Print mock data info
     debugPrint("=== Mock Data Info ===");
     debugPrint("Total attendance records: ${attendanceList.length}");
     if (attendanceList.isNotEmpty) {
-      debugPrint("Sample dates in mock data:");
       for (
         var i = 0;
         i < (attendanceList.length > 5 ? 5 : attendanceList.length);
@@ -66,6 +60,10 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
     debugPrint("Today's date: $selectedDate");
     debugPrint("===================");
   }
+
+  // Normalize date to ignore time
+  DateTime normalize(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
 
   /// Open date picker to choose attendance date
   Future<void> pickDate() async {
@@ -109,7 +107,6 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
 
       // Show message if no data
       if (list.isEmpty) {
-        debugPrint("No data found for selected date");
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -117,22 +114,10 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                 "No attendance data for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
               ),
               backgroundColor: Colors.orange,
-              duration: const Duration(seconds: 3),
             ),
           );
         }
         return;
-      }
-
-      // Show loading indicator
-      debugPrint("Generating PDF...");
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Generating PDF..."),
-            duration: Duration(seconds: 2),
-          ),
-        );
       }
 
       // Create PDF document
@@ -156,24 +141,21 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                 pw.SizedBox(height: 8),
                 pw.Text(
                   "Date: ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
-                  style: const pw.TextStyle(fontSize: 14),
                 ),
-                pw.Text(
-                  "Total Records: ${list.length}",
-                  style: const pw.TextStyle(fontSize: 12),
-                ),
+                pw.Text("Total Records: ${list.length}"),
                 pw.SizedBox(height: 16),
-                // Attendance table
                 pw.TableHelper.fromTextArray(
                   headers: const ["Student", "Check In", "Check Out", "Status"],
-                  data: list.map((a) {
-                    return [
-                      a.studentName,
-                      a.checkIn ?? "-",
-                      a.checkOut ?? "-",
-                      a.status.name.toUpperCase(),
-                    ];
-                  }).toList(),
+                  data: list
+                      .map(
+                        (a) => [
+                          a.studentName,
+                          a.checkIn ?? "-",
+                          a.checkOut ?? "-",
+                          a.status.name.toUpperCase(),
+                        ],
+                      )
+                      .toList(),
                   headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   headerDecoration: const pw.BoxDecoration(
                     color: PdfColors.grey300,
@@ -189,17 +171,18 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
 
       // Web: download PDF
       final bytes = await pdf.save();
-      debugPrint("PDF generated successfully. Size: ${bytes.length} bytes");
+      debugPrint("PDF generated: ${bytes.length} bytes");
 
+      // Download PDF on Web
       if (kIsWeb) {
-        debugPrint("Platform: Web - Using sharePdf");
-        // Download PDF on Web
+        debugPrint("Web detected → sharePdf");
         await Printing.sharePdf(
           bytes: bytes,
           filename:
               'attendance_${selectedDate.day}_${selectedDate.month}_${selectedDate.year}.pdf',
         );
 
+        // Success feedback for Web
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -210,20 +193,14 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
           );
         }
       } else {
-        debugPrint("Platform: Mobile/Desktop - Opening print dialog");
+        debugPrint("Non-web → layoutPdf");
         // Print dialog on Mobile/Desktop
         await Printing.layoutPdf(
-          onLayout: (PdfPageFormat format) async {
-            debugPrint(
-              "Print dialog opened with format: ${format.width}x${format.height}",
-            );
-            return bytes;
-          },
+          onLayout: (_) async => bytes,
           name: 'Attendance Report',
-          format: PdfPageFormat.a4,
         );
 
-        debugPrint("Print dialog completed");
+        // Feedback for Mobile/Desktop
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -234,19 +211,14 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
           );
         }
       }
+
       debugPrint("=== Print PDF Completed ===");
-    } catch (e, stackTrace) {
-      // Show error message
-      debugPrint("=== PDF Error ===");
-      debugPrint("Error: $e");
-      debugPrint("Stack trace: $stackTrace");
+    } catch (e, stack) {
+      debugPrint("PDF ERROR: $e");
+      debugPrint("$stack");
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Error: $e"),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 4),
-          ),
+          SnackBar(content: Text("Error: $e"), backgroundColor: Colors.red),
         );
       }
     }
@@ -317,39 +289,47 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          centerTitle: true,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_circle_left_outlined,
+              size: 40,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
+            onPressed: widget.onBackToDashboard,
           ),
           title: const Text(
-            "Student Attendance",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            "STUDENT ATTENDANCE",
+            style: TextStyle(
+              color: Color.fromARGB(255, 0, 0, 0),
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          centerTitle: true,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.print, color: Colors.black),
-              onPressed: () {
-                // Simple print to verify button works
-                debugPrint("PRINT BUTTON PRESSED - DEBUG");
-
-                try {
-                  final tabIndex = DefaultTabController.of(context).index;
-                  debugPrint("Current tab index: $tabIndex");
-                  printAttendancePdf(tabIndex);
-                } catch (e) {
-                  debugPrint("Error getting tab index: $e");
-                  // Fallback: try with index 0
-                  printAttendancePdf(0);
-                }
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.print,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  tooltip: "Print / Download PDF",
+                  onPressed: () {
+                    final controller = DefaultTabController.of(context);
+                    final tabIndex = controller.index;
+                    // Simple print to verify button works
+                    debugPrint("PRINT ICON PRESSED | Tab: $tabIndex");
+                    printAttendancePdf(tabIndex);
+                  },
+                );
               },
-              tooltip: "Print/Download PDF",
             ),
           ],
+
           bottom: const TabBar(
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.black54,
-            indicatorColor: Colors.black,
+            labelColor: Color.fromARGB(255, 0, 0, 0),
+            unselectedLabelColor: Color.fromARGB(179, 88, 85, 85),
+            indicatorColor: Color.fromARGB(255, 35, 155, 16),
             tabs: [
               Tab(text: "All"),
               Tab(text: "Present"),
@@ -357,10 +337,7 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: buildSharedBottomNav(
-          context,
-          2,
-        ), // index 2 = Attendance
+
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -381,16 +358,15 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
                     IconButton(
                       icon: const Icon(
                         Icons.edit_calendar,
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 0, 0, 0),
                       ),
                       onPressed: pickDate,
-                      tooltip: "Select Date",
                     ),
                   ],
                 ),
@@ -398,9 +374,9 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      buildAttendanceList(filteredAttendance(0)), // All
-                      buildAttendanceList(filteredAttendance(1)), // Present
-                      buildAttendanceList(filteredAttendance(2)), // Absent
+                      buildAttendanceList(filteredAttendance(0)),
+                      buildAttendanceList(filteredAttendance(1)),
+                      buildAttendanceList(filteredAttendance(2)),
                     ],
                   ),
                 ),
