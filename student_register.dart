@@ -106,7 +106,7 @@ class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
                     icon: const Icon(
                       Icons.arrow_circle_left_outlined,
                       size: 40,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 0, 0, 0),
                     ),
                     onPressed: () => Navigator.pop(context),
                   ),
@@ -304,4 +304,5 @@ class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
     );
   }
 }
+
 
