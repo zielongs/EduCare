@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Amir Lukman Bin Rozalan
-Updated by  : Amir Rozalan
-Tested by   : 
+Updated by  : Amir Rozalan, Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 03 January 2026
 Description : 
 Student Attendance Screen.
@@ -47,14 +47,17 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         currentIndex: 1, // 'Attendance' is highlighted
         onTap: _onBottomNavTapped, // Connects the function
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_rounded),
             label: 'Attendance',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: 'Notification',
+            icon: Icon(Icons.notifications_outlined),
+            label: 'Notifications',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),

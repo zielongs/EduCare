@@ -83,21 +83,16 @@ class AdminDashboardScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const CircleAvatar(
-            radius: 18,
-            backgroundColor: Color(0xFF303F9F),
-            child: Icon(Icons.grid_view_rounded, color: Colors.white, size: 20),
-          ),
           GestureDetector(
             onTap: () {
               // Navigate to menu screen
               Navigator.pushNamed(context, '/admin_menu');
             },
-            child: CircleAvatar(
+            child: const CircleAvatar(
               radius: 18,
-              backgroundColor: Colors.white.withValues(alpha: 0.4),
-              child: const Icon(
-                Icons.person_outline,
+              backgroundColor: Color(0xFF303F9F),
+              child: Icon(
+                Icons.grid_view_rounded,
                 color: Colors.white,
                 size: 20,
               ),

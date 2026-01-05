@@ -412,5 +412,3 @@ class TutorScheduleTile extends StatelessWidget {
     );
   }
 }
-
-

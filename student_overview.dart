@@ -21,14 +21,13 @@ class StudentAttendanceOverviewScreen extends StatefulWidget {
 
 class _StudentAttendanceOverviewScreenState
     extends State<StudentAttendanceOverviewScreen> {
-  
   // --- FIXED NAVIGATION LOGIC ---
   void _onBottomNavTapped(int index) {
     if (index == 0) {
       Navigator.pushNamed(context, '/student_dashboard');
     } else if (index == 1) {
-       // We are basically already in the attendance section
-       Navigator.pushNamed(context, '/student_attendance');
+      // We are basically already in the attendance section
+      Navigator.pushNamed(context, '/student_attendance');
     } else if (index == 2) {
       Navigator.pushNamed(context, '/notification');
     } else if (index == 3) {

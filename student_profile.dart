@@ -1,14 +1,10 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
+Updated by  : Noraziela Binti Jepsin
 Tested by   : 
 Date        : 28 December 2025
 Description : 
 Student Profile Screen for the EduCare App.
-- Displays student profile information
-- Allows editing of profile details
-- Provides security and account settings
-- Includes bottom navigation for student modules
 --------------------------------------------------*/
 
 import 'package:flutter/material.dart';
@@ -25,10 +21,8 @@ class StudentProfileScreen extends StatefulWidget {
 }
 
 class _StudentProfileScreenState extends State<StudentProfileScreen> {
-  // Toggle for biometric authentication
   bool isBiometricEnabled = false;
 
-  // Student profile data
   String firstName = 'STUDENT';
   String lastName = '';
   String username = '@student123';
@@ -40,19 +34,15 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* ---------------- Bottom Navigation Bar ---------------- */
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.indigo,
         unselectedItemColor: Colors.grey,
-        currentIndex: 3, // Profile tab
-        // Handle navigation when a tab is tapped
+        currentIndex: 3,
         onTap: (index) {
-          if (index == 3) return; // Stay on Profile screen
-
+          if (index == 3) return;
           switch (index) {
             case 0:
-              // Navigate to Student Dashboard (Home)
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -60,7 +50,6 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 ),
               );
               break;
-
             case 1:
               Navigator.pushReplacement(
                 context,
@@ -69,7 +58,6 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 ),
               );
               break;
-
             case 2:
               Navigator.pushReplacement(
                 context,
@@ -78,14 +66,13 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
               break;
           }
         },
-
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assignment_turned_in_outlined),
+            icon: Icon(Icons.calendar_today_outlined),
             label: 'Attendance',
           ),
           BottomNavigationBarItem(
@@ -96,11 +83,9 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
         ],
       ),
 
-      /* ---------------- Main Body ---------------- */
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
-          // App gradient background
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -111,7 +96,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
           children: [
             const SizedBox(height: 50),
 
-            /* ---------------- Header ---------------- */
+            // Header
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -142,7 +127,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
             const SizedBox(height: 20),
 
-            /* ---------------- User Info Card ---------------- */
+            // User card
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               padding: const EdgeInsets.all(15),
@@ -179,11 +164,10 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                   IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () async {
-                      // Navigate to Update Student Profile screen
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UpdateStudentProfileScreen(
+                          builder: (_) => UpdateStudentProfileScreen(
                             firstName: firstName,
                             lastName: lastName,
                             phone: phone,
@@ -193,8 +177,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                         ),
                       );
 
-                      // Update profile data after returning
-                      if (result != null && result is Map<String, String>) {
+                      if (result is Map<String, String>) {
                         setState(() {
                           firstName = result['firstName'] ?? firstName;
                           lastName = result['lastName'] ?? lastName;
@@ -211,7 +194,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
             const SizedBox(height: 25),
 
-            /* ---------------- Settings Section ---------------- */
+            // Settings
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -228,45 +211,49 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _buildSettingsTile(
+                      _tile(
                         Icons.person_outline,
                         "My Account",
                         subtitle: "Make changes to your account",
-                        hasWarning: true,
-                        onTap: () {},
+                        warning: true,
                       ),
-                      _buildSettingsTile(
+                      _tile(
                         Icons.person_add_alt,
                         "Saved Beneficiary",
                         subtitle: "Manage your saved account",
-                        onTap: () {},
                       ),
-                      _buildSettingsTile(
+                      _tile(
                         Icons.lock_outline,
                         "Face ID / Touch ID",
-                        subtitle: "Manage your device security",
-                        hasSwitch: true,
-                        switchValue: isBiometricEnabled,
-                        onSwitchChanged: (value) {
-                          setState(() {
-                            isBiometricEnabled = value;
-                          });
-                        },
+                        isSwitch: true,
                       ),
-                      _buildSettingsTile(
+                      _tile(
                         Icons.verified_user_outlined,
                         "Two-Factor Authentication",
-                        subtitle: "Further secure your account for safety",
-                        onTap: () {},
+                        subtitle: "Further secure your account",
                       ),
-                      _buildSettingsTile(
+                      _tile(
                         Icons.logout_outlined,
                         "Log out",
                         subtitle: "Log out of your account",
-                        onTap: () {
-                          _showLogoutDialog(context);
-                        },
+                        onTap: () => _showLogoutDialog(context),
                       ),
+
+                      const SizedBox(height: 20),
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "More",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+
+                      _tile(Icons.notifications_none, "Help & Support"),
+                      _tile(Icons.favorite_border, "About App"),
                     ],
                   ),
                 ),
@@ -278,26 +265,23 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
     );
   }
 
-  /* ---------------- Reusable Settings Tile ---------------- */
-  Widget _buildSettingsTile(
+  Widget _tile(
     IconData icon,
     String title, {
     String? subtitle,
-    bool hasWarning = false,
-    bool hasSwitch = false,
-    bool switchValue = false,
-    Function(bool)? onSwitchChanged,
+    bool warning = false,
+    bool isSwitch = false,
     VoidCallback? onTap,
   }) {
     return InkWell(
-      onTap: hasSwitch ? null : onTap,
+      onTap: isSwitch ? null : onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 15),
         child: Row(
           children: [
             CircleAvatar(
               backgroundColor: const Color(0xFFF3E5F5),
-              child: Icon(icon, color: Colors.indigo, size: 20),
+              child: Icon(icon, color: Colors.indigo),
             ),
             const SizedBox(width: 15),
             Expanded(
@@ -316,19 +300,27 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 ],
               ),
             ),
-            if (hasWarning)
-              const Icon(
-                Icons.warning_amber_rounded,
-                color: Colors.red,
-                size: 20,
-              ),
-            if (hasSwitch)
+            if (warning)
+              const Icon(Icons.warning_amber_rounded, color: Colors.red),
+            if (isSwitch)
               Switch(
-                value: switchValue,
-                onChanged: onSwitchChanged,
-                activeColor: Colors.indigo,
+                value: isBiometricEnabled,
+                onChanged: (value) {
+                  setState(() => isBiometricEnabled = value);
+                  ScaffoldMessenger.of(context)
+                    ..clearSnackBars()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          value
+                              ? 'Biometric authentication enabled'
+                              : 'Biometric authentication disabled',
+                        ),
+                      ),
+                    );
+                },
               ),
-            if (!hasSwitch)
+            if (!isSwitch)
               const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
           ],
         ),
@@ -336,11 +328,11 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
     );
   }
 
-  /* ---------------- Logout Confirmation Dialog ---------------- */
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         title: const Text('Log Out'),
         content: const Text('Are you sure you want to log out?'),
         actions: [
@@ -349,15 +341,12 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
             child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo),
             onPressed: () {
               Navigator.pop(context);
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/home',
-                (route) => false,
-              );
+              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             },
-            child: const Text('Log Out'),
+            child: const Text('Log Out', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

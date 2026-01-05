@@ -15,7 +15,7 @@ import 'admin_dashboard.dart';
 import 'admin_schedule_screen.dart';
 import 'admin_attendance_screen.dart';
 import 'admin_tutor_availability_screen.dart';
-import 'data/mock_tutors.dart'; 
+import 'data/mock_tutors.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   final int initialIndex;

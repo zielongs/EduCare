@@ -1,6 +1,6 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : Amir Lukman
+Updated by  : Amir Lukman, Noraziela Binti Jepsin
 Tested by   : Amir Lukman
 Date        : 28 December 2025
 Description : 
@@ -44,7 +44,7 @@ class StudentDashboardScreen extends StatelessWidget {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -99,9 +99,9 @@ class StudentDashboardScreen extends StatelessWidget {
                       ),
                     ),
                     const CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        'https://i.pravatar.cc/150?img=11',
-                      ),
+                      radius: 22,
+                      backgroundColor: Color(0xFFB2EBF2),
+                      child: Icon(Icons.person, color: Colors.indigo, size: 26),
                     ),
                   ],
                 ),
@@ -357,4 +357,3 @@ class StudentDashboardScreen extends StatelessWidget {
     );
   }
 }
-

@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Nur 'Aainaa Hamraa binti Hamka
-Updated by  : 
-Tested by   : 
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 1 January 2026
 Description : 
 Admin Notifications Screen for the EduCare App.
@@ -99,10 +99,7 @@ class _AdminNotificationsState extends State<AdminNotifications> {
                       icon: const Icon(Icons.arrow_back),
                       onPressed: () {
                         // BACK TO EXISTING ADMIN DASHBOARD
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/admin_dashboard',
-                        );
+                        Navigator.pushReplacementNamed(context, '/admin_home');
                       },
                     ),
                     const SizedBox(width: 10),
@@ -139,7 +136,7 @@ class _AdminNotificationsState extends State<AdminNotifications> {
                         /* Recipient Type */
                         const Text('To'),
                         DropdownButtonFormField<String>(
-                          value: _recipientType,
+                          initialValue: _recipientType,
                           items: _recipientOptions
                               .map(
                                 (type) => DropdownMenuItem(
@@ -249,4 +246,3 @@ class _AdminNotificationsState extends State<AdminNotifications> {
     );
   }
 }
-

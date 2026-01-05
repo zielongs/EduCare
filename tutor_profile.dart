@@ -1,6 +1,6 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
+Updated by  : Noraziela Binti Jepsin
 Tested by   : 
 Date        : 28 December 2025
 Description : 
@@ -36,16 +36,16 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.indigo,
         unselectedItemColor: Colors.grey,
-        currentIndex: 3, // Profile
+        currentIndex: 3, // Profile tab
         onTap: (index) {
-          if (index == 3) return; // already on Profile
+          if (index == 3) return; // Already on Profile
 
           switch (index) {
             case 0:
-              Navigator.pushReplacementNamed(context, '/tutor_dashboard');
+              Navigator.pushReplacementNamed(context, '/tutor-dashboard');
               break;
             case 1:
-              Navigator.pushReplacementNamed(context, '/view-schedule');
+              Navigator.pushReplacementNamed(context, '/tutor-availability');
               break;
             case 2:
               Navigator.pushReplacementNamed(context, '/tutor-notifications');
@@ -62,7 +62,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
             label: 'Availability',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
+            icon: Icon(Icons.notifications_none),
             label: 'Notifications',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
@@ -327,7 +327,7 @@ class _TutorProfileScreenState extends State<TutorProfileScreen> {
               Switch(
                 value: switchValue,
                 onChanged: onSwitchChanged,
-                activeColor: Colors.indigo,
+                activeThumbColor: Colors.indigo,
               ),
             if (!hasSwitch)
               const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),

@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Amir Lukman Bin Rozalan
-Updated by  : Amir Lukman Bin Rozalan
-Tested by   : 
+Updated by  : Amir Lukman Bin Rozalan, Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 03 January 2026
 Description : 
 Student Class Schedule Screen.
@@ -111,13 +111,13 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
 
   void _onBottomNavTapped(int index) {
     if (index == 0) {
-       Navigator.pushNamed(context, '/student_dashboard');
+      Navigator.pushNamed(context, '/student_dashboard');
     } else if (index == 1) {
-       Navigator.pushNamed(context, '/student_attendance');
+      Navigator.pushNamed(context, '/student_attendance');
     } else if (index == 2) {
-       Navigator.pushNamed(context, '/notification');
+      Navigator.pushNamed(context, '/notification');
     } else if (index == 3) {
-       Navigator.pushNamed(context, '/profile');
+      Navigator.pushNamed(context, '/profile');
     }
   }
 
@@ -132,14 +132,17 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
         currentIndex: 0,
         onTap: _onBottomNavTapped,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_rounded),
+            icon: Icon(Icons.home_rounded),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_outlined),
             label: 'Attendance',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: 'Notification',
+            icon: Icon(Icons.notifications_none),
+            label: 'Notifications',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),

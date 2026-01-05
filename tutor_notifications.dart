@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Nur 'Aainaa Hamraa binti Hamka
-Updated by  : 
-Tested by   : 
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 29 December 2025
 Description : 
 Tutor Notifications Screen for the EduCare App.
@@ -21,7 +21,7 @@ class TutorNotifications extends StatefulWidget {
 }
 
 class _TutorNotificationsState extends State<TutorNotifications> {
-  int _currentIndex = 2;
+  final int _currentIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +75,7 @@ class _TutorNotificationsState extends State<TutorNotifications> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) =>
-                                const TutorReplacementClass(),
+                            builder: (_) => const TutorReplacementClass(),
                           ),
                         );
                       },
@@ -154,28 +153,25 @@ class _TutorNotificationsState extends State<TutorNotifications> {
 
           switch (index) {
             case 0:
-              Navigator.pushReplacementNamed(
-                  context, '/tutor-dashboard');
+              Navigator.pushReplacementNamed(context, '/tutor-dashboard');
               break;
             case 1:
-              Navigator.pushReplacementNamed(
-                  context, '/tutor-availability');
+              Navigator.pushReplacementNamed(context, '/tutor-availability');
               break;
             case 2:
               return;
             case 3:
-              Navigator.pushReplacementNamed(
-                  context, '/tutor_profile');
+              Navigator.pushReplacementNamed(context, '/tutor_profile');
               break;
           }
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
+            icon: Icon(Icons.history_toggle_off),
             label: 'Availability',
           ),
           BottomNavigationBarItem(
@@ -183,7 +179,7 @@ class _TutorNotificationsState extends State<TutorNotifications> {
             label: 'Notifications',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person_outline),
             label: 'Profile',
           ),
         ],
@@ -206,9 +202,7 @@ class _TutorNotificationsState extends State<TutorNotifications> {
             ? const Color(0xFFB2EBF2)
             : Colors.white.withOpacity(0.9),
         borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 5),
-        ],
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
       ),
       child: Row(
         children: [
@@ -220,25 +214,16 @@ class _TutorNotificationsState extends State<TutorNotifications> {
               children: [
                 Text(
                   title,
-                  style:
-                      const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  message,
-                  style: const TextStyle(fontSize: 12),
-                ),
+                Text(message, style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
-          Text(
-            time,
-            style: const TextStyle(fontSize: 10),
-          ),
+          Text(time, style: const TextStyle(fontSize: 10)),
         ],
       ),
     );
   }
 }
-
-

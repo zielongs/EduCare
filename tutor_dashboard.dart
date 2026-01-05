@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Nur 'Aainaa Hamraa binti Hamka
-Updated by  : 
-Tested by   : 
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 28 December 2025
 Description : 
 Tutor Dashboard Screen for the EduCare App.
@@ -41,11 +41,11 @@ class TutorDashboard extends StatelessWidget {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined),
+            icon: Icon(Icons.history_toggle_off),
             label: 'Availability',
           ),
           BottomNavigationBarItem(
@@ -348,5 +348,3 @@ class TutorDashboard extends StatelessWidget {
     );
   }
 }
-
-

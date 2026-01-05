@@ -343,4 +343,3 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     );
   }
 }
-

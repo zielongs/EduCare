@@ -1,6 +1,6 @@
 /*--------------------------------------------------
 Author      : Noraziela Binti Jepsin
-Updated by  : 
+Updated by  : Noraziela Binti Jepsin
 Tested by   : 
 Date        : 28 December 2025
 Description : 
@@ -41,7 +41,8 @@ class TutorMenuScreen extends StatelessWidget {
                   // Back button
                   IconButton(
                     icon: const Icon(
-                      Icons.arrow_back_ios_new,
+                      Icons.arrow_circle_left_outlined,
+                      size: 40,
                       color: Colors.black,
                     ),
                     onPressed: () => Navigator.pop(context),
@@ -123,11 +124,7 @@ class TutorMenuScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/tutor_profile');
               break;
             case "VIEW SCHEDULE":
-              // Currently points to profile screen, update when schedule screen is ready
-              Navigator.pushNamed(
-                context,
-                '/tutor_profile',
-              ); // TODO: Change to /tutor_schedule
+              Navigator.pushNamed(context, '/view-schedule');
               break;
             case "DASHBOARD":
               Navigator.pushNamed(context, '/tutor-dashboard');
@@ -148,4 +145,3 @@ class TutorMenuScreen extends StatelessWidget {
     );
   }
 }
-

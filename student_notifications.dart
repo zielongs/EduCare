@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Nur 'Aainaa Hamraa binti Hamka
-Updated by  : Amir Lukman
-Tested by   : Amir Lukman
+Updated by  : Amir Lukman, Noraziela Binti Jepsin
+Tested by   : Amir Lukman, Noraziela Binti Jepsin
 Date        : 2 January 2026
 Description : 
 Student Notifications Screen for the EduCare App.
@@ -159,11 +159,13 @@ class _StudentNotificationsState extends State<StudentNotifications> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_rounded), // Changed to match others
+            icon: Icon(
+              Icons.calendar_today_outlined,
+            ), // Changed to match others
             label: 'Attendance',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
+            icon: Icon(Icons.notifications_rounded),
             label: 'Notifications',
           ),
           BottomNavigationBarItem(
@@ -219,4 +221,3 @@ class _StudentNotificationsState extends State<StudentNotifications> {
     );
   }
 }
-

@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Nur 'Aainaa Hamraa binti Hamka
-Updated by  : 
-Tested by   : 
+Updated by  : Noraziela Binti Jepsin
+Tested by   : Noraziela Binti Jepsin
 Date        : 3 January 2026
 Description : 
 Tutor View Schedule Screen for the EduCare App.
@@ -21,7 +21,7 @@ class TutorViewSchedule extends StatefulWidget {
 
 class _TutorViewScheduleState extends State<TutorViewSchedule> {
   int _selectedDateIndex = 2;
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
 
   final List<Map<String, dynamic>> _days = [
     {'day': 'Mon', 'date': '16'},
@@ -228,11 +228,11 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined),
+            icon: Icon(Icons.history_toggle_off),
             label: 'Availability',
           ),
           BottomNavigationBarItem(
@@ -368,5 +368,3 @@ class _TutorViewScheduleState extends State<TutorViewSchedule> {
     );
   }
 }
-
-
