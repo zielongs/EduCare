@@ -1,7 +1,7 @@
 /*--------------------------------------------------
 Author      : Nur 'Aainaa Hamraa binti Hamka
 Updated by  : 
-Tested by   : 
+Tested by   : Noraziela Binti Jepsin
 Date        : 28 December 2025
 Description : 
 Tutor Availability Data Model for the EduCare App.
@@ -36,3 +36,4 @@ class TutorAvailabilityDay {
     required this.slots,
   });
 }
+
